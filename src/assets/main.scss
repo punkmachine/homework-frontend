@@ -10,3 +10,22 @@
 		justify-content: center;
 	}
 }
+
+.card-lesson-wrapper {
+	border-radius: 15px;
+	box-shadow: 1px 1px 7px rgba(0, 0, 0, .4);
+	height: 200px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	transition: 0.3s;
+
+	&:hover {
+		box-shadow: 2px 2px 15px rgba(0, 0, 0, .5);
+	}
+}
+
+.title-card {
+	text-align: center;
+}
