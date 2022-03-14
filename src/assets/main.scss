@@ -13,7 +13,7 @@
 
 .card-lesson-wrapper {
 	border-radius: 15px;
-	box-shadow: 1px 1px 7px rgba(0, 0, 0, .4);
+	box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.4);
 	height: 200px;
 	display: flex;
 	justify-content: center;
@@ -22,10 +22,24 @@
 	transition: 0.3s;
 
 	&:hover {
-		box-shadow: 2px 2px 15px rgba(0, 0, 0, .5);
+		box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.5);
 	}
 }
 
 .title-card {
 	text-align: center;
+}
+
+.cardlist-filter {
+	display: flex;
+	gap: 10px;
+	justify-content: space-between;
+}
+
+.cards {
+	margin-top: 20px;
+}
+
+.filter-item {
+	width: 220px;
 }

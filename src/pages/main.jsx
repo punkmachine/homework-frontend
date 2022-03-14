@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Card, Typography } from 'antd';
+import { Row, Col, Typography, Select, Input } from 'antd';
 import { CardLesson } from '../components/cardLesson';
 
 function MainPage() {
@@ -43,15 +43,29 @@ function MainPage() {
 	}, []);
 
 	return (
-		<div className='cardList'>
+		<div className='cardlist'>
 			<Typography.Title level={1} style={{ textAlign: 'center', margin: '15px 0' }}>Предметный лист</Typography.Title>
-			<Row gutter={[20, 20]}>
-				{array.map((item, index) =>
-					<Col span={stateSpan} key={index}>
-						<CardLesson {...item} />
-					</Col>
-				)}
-			</Row>
+
+			<div className="cardlist-filter">
+				<Input
+					placeholder='Поиск...'
+					className='filter-item'
+				/>
+				<Select
+					placeholder='Семестр'
+					className='filter-item'
+				/>
+			</div>
+
+			<div className="cards">
+				<Row gutter={[20, 20]}>
+					{array.map((item, index) =>
+						<Col span={stateSpan} key={index}>
+							<CardLesson {...item} />
+						</Col>
+					)}
+				</Row>
+			</div>
 		</div>
 	);
 }
