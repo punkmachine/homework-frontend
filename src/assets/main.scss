@@ -11,15 +11,38 @@
 	}
 }
 
-.card-lesson-wrapper {
-	border-radius: 15px;
-	box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.4);
+.card-lesson {
 	height: 200px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	border-radius: 15px;
+	box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.4);
 	cursor: pointer;
 	transition: 0.3s;
+
+	&:hover {
+		box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.5);
+	}
+}
+
+.card-homework {
+	// height: 200px;
+	border-radius: 15px;
+	box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.4);
+	cursor: pointer;
+	transition: 0.3s;
+
+	&-title {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	&-footer {
+		display: flex;
+		justify-content: space-between;
+		margin-top: 50px;
+	}
 
 	&:hover {
 		box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.5);

@@ -7,28 +7,28 @@ function MainPage() {
 
 	const array = [
 		{
-			title: 'Английский язык'
+			title: 'Английский язык',
+			id: 1,
 		},
 		{
-			title: 'Английский язык'
+			title: 'Английский язык',
+			id: 2,
 		},
 		{
-			title: 'Английский язык'
+			title: 'Английский язык',
+			id: 3,
 		},
 		{
-			title: 'Английский язык'
+			title: 'Английский язык',
+			id: 4,
 		},
 		{
-			title: 'Английский язык'
+			title: 'Английский язык',
+			id: 5,
 		},
 		{
-			title: 'Английский язык'
-		},
-		{
-			title: 'Английский язык'
-		},
-		{
-			title: 'Английский язык'
+			title: 'Английский язык',
+			id: 6,
 		},
 	];
 
@@ -58,7 +58,7 @@ function MainPage() {
 			</div>
 
 			<div className="cards">
-				<Row gutter={[20, 20]}>
+				<Row gutter={[20, 20]} justify='center'>
 					{array.map((item, index) =>
 						<Col span={stateSpan} key={index}>
 							<CardLesson {...item} />
