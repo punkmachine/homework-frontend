@@ -5,9 +5,54 @@
 }
 
 .menu {
+	position: relative;
+
 	ul {
 		display: flex;
 		justify-content: center;
+	}
+
+	.back {
+		height: 100%;
+		position: absolute;
+		left: 50px;
+		cursor: pointer;
+		display: flex;
+		gap: 10px;
+		align-items: center;
+		transition: 0.3s;
+
+		&-icon {
+			font-size: 20px;
+		}
+
+		&::after {
+			content: "";
+			opacity: 0;
+			height: 2px;
+			width: 80px;
+			background-color: #1890ff;
+
+			position: absolute;
+			bottom: 0;
+			left: -3px;
+
+			transition: 0.3s;
+		}
+
+		&:hover {
+			transition: 0.3s;
+
+			&::after {
+				opacity: 1;
+			}
+
+			.ant-typography {
+				color: #1890ff;
+			}
+
+			color: #1890ff;
+		}
 	}
 }
 

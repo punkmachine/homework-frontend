@@ -1,12 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu } from 'antd';
-import { SCHEDULE_PAGE_PATH } from '../constants/routes';
+import { Menu, Typography } from 'antd';
+import { LeftCircleOutlined } from '@ant-design/icons';
+
+import { useRedirect } from '../hooks/redirect';
+
+import { SCHEDULE_PAGE_PATH, MAIN_PAGE_PATH } from '../constants/routes';
 
 function Header() {
+	const { goback, pathname } = useRedirect();
+
+	const [hidden, setHidden] = useState(true);
+
+	useEffect(() => {
+		setHidden(pathname === MAIN_PAGE_PATH);
+	}, [pathname]);
+
 	return (
 		<header className="header">
 			<nav className="menu">
+				<div className='back' onClick={goback} hidden={hidden}>
+					<LeftCircleOutlined className='back-icon' />
+					<Typography>Назад</Typography>
+				</div>
 				<Menu mode="horizontal">
 					<Menu.Item key='main'>
 						<Link to='/'>Главная</Link>
