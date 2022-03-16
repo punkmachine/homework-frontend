@@ -1,0 +1,113 @@
+.content {
+	padding: 10px;
+	max-width: 1440px;
+	margin: 0 auto;
+}
+
+.menu {
+	position: relative;
+
+	ul {
+		display: flex;
+		justify-content: center;
+	}
+
+	.back {
+		height: 100%;
+		position: absolute;
+		left: 50px;
+		cursor: pointer;
+		display: flex;
+		gap: 10px;
+		align-items: center;
+		transition: 0.3s;
+
+		&-icon {
+			font-size: 20px;
+		}
+
+		&::after {
+			content: "";
+			opacity: 0;
+			height: 2px;
+			width: 80px;
+			background-color: #1890ff;
+
+			position: absolute;
+			bottom: 0;
+			left: -3px;
+
+			transition: 0.3s;
+		}
+
+		&:hover {
+			transition: 0.3s;
+
+			&::after {
+				opacity: 1;
+			}
+
+			.ant-typography {
+				color: #1890ff;
+			}
+
+			color: #1890ff;
+		}
+	}
+}
+
+.card-lesson {
+	height: 200px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 15px;
+	box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.4);
+	cursor: pointer;
+	transition: 0.3s;
+
+	&:hover {
+		box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.5);
+	}
+}
+
+.card-homework {
+	// height: 200px;
+	border-radius: 15px;
+	box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.4);
+	cursor: pointer;
+	transition: 0.3s;
+
+	&-title {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	&-footer {
+		display: flex;
+		justify-content: space-between;
+		margin-top: 50px;
+	}
+
+	&:hover {
+		box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.5);
+	}
+}
+
+.title-card {
+	text-align: center;
+}
+
+.cardlist-filter {
+	display: flex;
+	gap: 10px;
+	justify-content: space-between;
+}
+
+.cards {
+	margin-top: 20px;
+}
+
+.filter-item {
+	width: 220px;
+}
