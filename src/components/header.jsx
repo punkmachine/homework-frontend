@@ -4,11 +4,13 @@ import { Menu, Typography } from 'antd';
 import { LeftCircleOutlined } from '@ant-design/icons';
 
 import { useRedirect } from '../hooks/redirect';
+import { usePathname } from '../hooks/pathname';
 
 import { SCHEDULE_PAGE_PATH, MAIN_PAGE_PATH } from '../constants/routes';
 
 function Header() {
-	const { goback, pathname } = useRedirect();
+	const { goback } = useRedirect();
+	const { pathname } = usePathname();
 
 	const [hidden, setHidden] = useState(true);
 
