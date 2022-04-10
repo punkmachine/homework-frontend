@@ -12,5 +12,13 @@ export const headData = {
 	[routes.SCHEDULE_PAGE_PATH]: {
 		title: 'Расписание занятий',
 		description: 'Расписание занятий',
-	}
+	},
+	[routes.LOGIN_PAGE_PATH]: {
+		title: 'Вход',
+		description: 'Вход в приложение',
+	},
+	[routes.REGISTRATION_PAGE_PATH]: {
+		title: 'Регистрация',
+		description: 'Регистрация в приложении',
+	},
 }
