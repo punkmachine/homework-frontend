@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, Typography } from 'antd';
+import { Menu, Typography, Button } from 'antd';
 import { LeftCircleOutlined } from '@ant-design/icons';
 
 import { useRedirect } from '../hooks/redirect';
@@ -8,7 +8,7 @@ import { useRedirect } from '../hooks/redirect';
 import { SCHEDULE_PAGE_PATH, MAIN_PAGE_PATH } from '../constants/routes';
 
 function Header() {
-	const { goback } = useRedirect();
+	const { goback, goLogin, goReg } = useRedirect();
 	const { pathname } = useLocation();
 
 	const [hidden, setHidden] = useState(true);
@@ -32,6 +32,10 @@ function Header() {
 						<Link to={SCHEDULE_PAGE_PATH}>Расписание</Link>
 					</Menu.Item>
 				</Menu>
+				<div className="auth-controller">
+					<Button type="link" onClick={goLogin}>Вход</Button>
+					<Button type="link" onClick={goReg}>Регистрация</Button>
+				</div>
 			</nav>
 		</header>
 	);

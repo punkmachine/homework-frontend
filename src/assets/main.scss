@@ -129,7 +129,23 @@
 		margin: 0 auto;
 
 		&-submit {
-			width: 150px;
+			padding: 0 2rem;
+		}
+		
+		&-link {
+			margin-top: 10px;
+		}
+	}
+}
+
+.registration {
+	&-form {
+		width: 400px;
+		text-align: center;
+		margin: 0 auto;
+
+		&-submit {
+			padding: 0 2rem;
 		}
 		
 		&-link {
