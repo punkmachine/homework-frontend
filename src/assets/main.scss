@@ -12,6 +12,16 @@
 		justify-content: center;
 	}
 
+	& > .auth-controller {
+		height: 100%;
+		position: absolute;
+		right: 50px;
+		display: flex;
+		gap: 10px;
+		align-items: center;
+		top: 0;
+	}
+
 	.back {
 		height: 100%;
 		position: absolute;
@@ -110,4 +120,20 @@
 
 .filter-item {
 	width: 220px;
+}
+
+.login {
+	&-form {
+		width: 400px;
+		text-align: center;
+		margin: 0 auto;
+
+		&-submit {
+			width: 150px;
+		}
+		
+		&-link {
+			margin-top: 10px;
+		}
+	}
 }
