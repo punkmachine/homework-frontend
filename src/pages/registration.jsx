@@ -13,7 +13,17 @@ function Registration() {
 
 			<Form form={form} className='registration-form'>
 				<Form.Item
-					name='registration'
+					name='name'
+					className='registration-form-item'
+				>
+					<Input
+						placeholder='Введите ваше имя'
+						size="large"
+						prefix={<UserOutlined />}
+					/>
+				</Form.Item>
+				<Form.Item
+					name='login'
 					className='registration-form-item'
 				>
 					<Input
