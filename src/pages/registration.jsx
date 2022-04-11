@@ -4,6 +4,7 @@ import { Form, Button, Input, Typography } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 
 import { useRegisterMutation } from '../api/user';
+import { rules } from '../utils/rules';
 import { LOGIN_PAGE_PATH } from '../constants/routes';
 
 function Registration() {
@@ -32,7 +33,7 @@ function Registration() {
 				<Form.Item
 					name='name'
 					className='registration-form-item'
-					rules={[{ required: true, message: 'Обязательно к заполнению!' }]}
+					rules={rules.required}
 				>
 					<Input
 						placeholder='Введите ваше имя'
@@ -43,7 +44,7 @@ function Registration() {
 				<Form.Item
 					name='login'
 					className='registration-form-item'
-					rules={[{ required: true, message: 'Обязательно к заполнению!' }]}
+					rules={rules.email}
 				>
 					<Input
 						placeholder='Введите логин'
@@ -54,7 +55,7 @@ function Registration() {
 				<Form.Item
 					name='password'
 					className='registration-form-item'
-					rules={[{ required: true, message: 'Обязательно к заполнению!' }]}
+					rules={rules.password}
 				>
 					<Input.Password
 						placeholder='Введите пароль'
@@ -65,7 +66,7 @@ function Registration() {
 				<Form.Item
 					name='repeatPassword'
 					className='registration-form-item'
-					rules={[{ required: true, message: 'Обязательно к заполнению!' }]}
+					rules={rules.confirmPassword}
 				>
 					<Input.Password
 						placeholder='Повторите пароль'
