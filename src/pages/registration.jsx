@@ -2,19 +2,37 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button, Input, Typography } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
+
+import { useRegisterMutation } from '../api/user';
 import { LOGIN_PAGE_PATH } from '../constants/routes';
 
 function Registration() {
 	const [form] = Form.useForm();
+	const [reg] = useRegisterMutation();
+
+	async function submitRegistration(values) {
+		try {
+			const data = await reg(values);
+
+			console.log(data);
+		} catch (error) {
+			console.log('error >>>', error);
+		}
+	}
 
 	return (
 		<div className='registration-container'>
 			<Typography.Title level={1} style={{ textAlign: 'center', margin: '15px 0' }}>Регистрация</Typography.Title>
 
-			<Form form={form} className='registration-form'>
+			<Form
+				form={form}
+				className='registration-form'
+				onFinish={submitRegistration}
+			>
 				<Form.Item
 					name='name'
 					className='registration-form-item'
+					rules={[{ required: true, message: 'Обязательно к заполнению!' }]}
 				>
 					<Input
 						placeholder='Введите ваше имя'
@@ -25,6 +43,7 @@ function Registration() {
 				<Form.Item
 					name='login'
 					className='registration-form-item'
+					rules={[{ required: true, message: 'Обязательно к заполнению!' }]}
 				>
 					<Input
 						placeholder='Введите логин'
@@ -35,6 +54,7 @@ function Registration() {
 				<Form.Item
 					name='password'
 					className='registration-form-item'
+					rules={[{ required: true, message: 'Обязательно к заполнению!' }]}
 				>
 					<Input.Password
 						placeholder='Введите пароль'
@@ -45,6 +65,7 @@ function Registration() {
 				<Form.Item
 					name='repeatPassword'
 					className='registration-form-item'
+					rules={[{ required: true, message: 'Обязательно к заполнению!' }]}
 				>
 					<Input.Password
 						placeholder='Повторите пароль'
@@ -53,8 +74,17 @@ function Registration() {
 					/>
 				</Form.Item>
 
-				<Button className='registration-form-submit' type='primary'>Зарегестрироваться</Button>
-				<Typography className='registration-form-link'>Уже есть аккаунт? <Link to={LOGIN_PAGE_PATH}>Войти</Link> </Typography>
+				<Button
+					className='registration-form-submit'
+					type='primary'
+					htmlType="submit"
+				>
+					Зарегестрироваться
+				</Button>
+				<Typography className='registration-form-link'>
+					Уже есть аккаунт?
+					<Link to={LOGIN_PAGE_PATH}> Войти</Link>
+				</Typography>
 			</Form>
 		</div>
 	);
