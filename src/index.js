@@ -11,7 +11,8 @@ import { store } from './redux/store';
 
 import App from './App';
 
-import './assets/main.less'
+import 'antd/dist/antd.css';
+import './assets/main.scss'
 
 ReactDOM.render(
 	<Provider store={store}>
