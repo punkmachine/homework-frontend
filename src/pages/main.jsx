@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Typography, Select, Input, AutoComplete } from 'antd';
+import { Row, Col, Typography, Select, AutoComplete } from 'antd';
 import { CardLesson } from '../components/cardLesson';
 
 function MainPage() {

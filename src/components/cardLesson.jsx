@@ -3,7 +3,7 @@ import { Typography, Card } from 'antd';
 import { useRedirect } from '../hooks/redirect';
 
 function CardLesson(props) {
-	const { id, label: title } = props;
+	const { value: id, label: title } = props;
 	const { goLesson } = useRedirect();
 
 	return (
