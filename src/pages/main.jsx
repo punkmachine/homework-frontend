@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Typography, Select, Input } from 'antd';
+import { Row, Col, Typography, Select, Input, AutoComplete } from 'antd';
 import { CardLesson } from '../components/cardLesson';
 
 function MainPage() {
 	const [stateSpan, setStateSpan] = useState(6);
+	const [options, setOptions] = useState([]);
 
 	const array = [
 		{
@@ -11,26 +12,26 @@ function MainPage() {
 			id: 1,
 		},
 		{
-			title: 'Английский язык',
+			title: 'Казахский язык',
 			id: 2,
 		},
 		{
-			title: 'Английский язык',
+			title: 'Математика',
 			id: 3,
 		},
 		{
-			title: 'Английский язык',
+			title: 'Физ-ра',
 			id: 4,
 		},
-		{
-			title: 'Английский язык',
-			id: 5,
-		},
-		{
-			title: 'Английский язык',
-			id: 6,
-		},
 	];
+
+	const onSearch = (searchText) => {
+		setOptions([
+			...array
+				.filter(item => item.title.toLowerCase().indexOf(searchText.toLowerCase()) > -1)
+				.map(item => ({ label: item.title, value: item.title }))
+		]);
+	};
 
 	useEffect(() => {
 		const screenWidth = window.screen.width;
@@ -40,6 +41,10 @@ function MainPage() {
 		} else if (screenWidth <= 768 && screenWidth > 425) {
 			setStateSpan(12);
 		} else if (screenWidth <= 425) setStateSpan(24);
+
+		setOptions([
+			...array.map(item => ({ label: item.title, value: item.id }))
+		])
 	}, []);
 
 	return (
@@ -47,9 +52,12 @@ function MainPage() {
 			<Typography.Title level={1} style={{ textAlign: 'center', margin: '15px 0' }}>Предметный лист</Typography.Title>
 
 			<div className="cardlist-filter">
-				<Input
-					placeholder='Поиск...'
+				<AutoComplete
+					options={options}
 					className='filter-item'
+					placeholder='Поиск...'
+					onSearch={onSearch}
+					allowClear
 				/>
 				<Select
 					placeholder='Семестр'
@@ -59,7 +67,7 @@ function MainPage() {
 
 			<div className="cards">
 				<Row gutter={[20, 20]} justify='center'>
-					{array.map((item, index) =>
+					{options.map((item, index) =>
 						<Col span={stateSpan} key={index}>
 							<CardLesson {...item} />
 						</Col>
