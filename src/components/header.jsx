@@ -12,10 +12,20 @@ function Header() {
 	const { pathname } = useLocation();
 
 	const [hidden, setHidden] = useState(true);
+	const [activeKey, setActiveKey] = useState('main');
+
+	function selectMenu({ key }) {
+		setActiveKey(key);
+		localStorage.setItem('activeKey', key);
+	}
 
 	useEffect(() => {
 		setHidden(pathname === MAIN_PAGE_PATH);
 	}, [pathname]);
+
+	useEffect(() => {
+		setActiveKey(localStorage.getItem('activeKey') ?? 'main');
+	}, []);
 
 	return (
 		<header className="header">
@@ -24,7 +34,11 @@ function Header() {
 					<LeftCircleOutlined className='back-icon' />
 					<Typography>Назад</Typography>
 				</div>
-				<Menu mode="horizontal">
+				<Menu
+					mode="horizontal"
+					selectedKeys={[activeKey]}
+					onSelect={selectMenu}
+				>
 					<Menu.Item key='main'>
 						<Link to='/'>Главная</Link>
 					</Menu.Item>
