@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Form, Button, Input, Typography } from 'antd';
+import { Form, Button, Input, Typography, message } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 
 import { useRegisterMutation } from '../api/user';
@@ -13,11 +13,17 @@ function Registration() {
 
 	async function submitRegistration(values) {
 		try {
-			const data = await reg(values);
+			const { data } = await reg(values);
+			const { success, msg } = data;
 
-			console.log(data);
+			if (success) {
+				message.success(msg);
+			} else {
+				message.error(msg);
+			}
 		} catch (error) {
-			console.log('error >>>', error);
+			message.error('catch error:', error);
+			throw error;
 		}
 	}
 
