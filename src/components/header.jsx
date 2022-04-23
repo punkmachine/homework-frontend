@@ -4,12 +4,15 @@ import { Menu, Typography, Button } from 'antd';
 import { LeftCircleOutlined } from '@ant-design/icons';
 
 import { useRedirect } from '../hooks/redirect';
+import { useCookies } from '../hooks/cookies';
 
 import { SCHEDULE_PAGE_PATH, MAIN_PAGE_PATH } from '../constants/routes';
 
 function Header() {
-	const { goback, goLogin, goReg } = useRedirect();
 	const { pathname } = useLocation();
+
+	const { goback, goLogin, goReg } = useRedirect();
+	const { cookieJWT, CookiesDelete } = useCookies();
 
 	const [hidden, setHidden] = useState(true);
 	const [activeKey, setActiveKey] = useState('main');
@@ -17,6 +20,10 @@ function Header() {
 	function selectMenu({ key }) {
 		setActiveKey(key);
 		localStorage.setItem('activeKey', key);
+	}
+
+	function clear() {
+		CookiesDelete();
 	}
 
 	useEffect(() => {
@@ -47,8 +54,18 @@ function Header() {
 					</Menu.Item>
 				</Menu>
 				<div className="auth-controller">
-					<Button type="link" onClick={goLogin}>Вход</Button>
-					<Button type="link" onClick={goReg}>Регистрация</Button>
+					{cookieJWT.JWT
+						? (
+							<>
+								<Button type="link" onClick={clear}>Выход</Button>
+							</>
+						)
+						: (
+							<>
+								<Button type="link" onClick={goLogin}>Вход</Button>
+								<Button type="link" onClick={goReg}>Регистрация</Button>
+							</>
+						)}
 				</div>
 			</nav>
 		</header>

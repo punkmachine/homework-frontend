@@ -4,20 +4,25 @@ import { Form, Button, Input, Typography, message } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 
 import { useRegisterMutation } from '../api/user';
+import { useRedirect } from '../hooks/redirect';
 import { rules } from '../utils/rules';
 import { LOGIN_PAGE_PATH } from '../constants/routes';
 
 function Registration() {
 	const [form] = Form.useForm();
+
 	const [reg] = useRegisterMutation();
+	const { goMain } = useRedirect();
 
 	async function submitRegistration(values) {
 		try {
 			const { data } = await reg(values);
-			const { success, msg } = data;
+			const { success, msg, jwt } = data;
 
 			if (success) {
+				document.cookie = `JWT=${jwt};`
 				message.success(msg);
+				goMain();
 			} else {
 				message.error(msg);
 			}
