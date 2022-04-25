@@ -5,6 +5,7 @@ import { UserOutlined } from '@ant-design/icons';
 
 import { useRegisterMutation } from '../api/user';
 import { useRedirect } from '../hooks/redirect';
+import { useCookies } from '../hooks/cookies';
 import { rules } from '../utils/rules';
 import { LOGIN_PAGE_PATH } from '../constants/routes';
 
@@ -13,15 +14,18 @@ function Registration() {
 
 	const [reg] = useRegisterMutation();
 	const { goMain } = useRedirect();
+	const { setJWT } = useCookies();
 
 	async function submitRegistration(values) {
 		try {
 			const { data } = await reg(values);
-			const { success, msg, jwt } = data;
+			const { success, msg } = data;
+			const { jwt } = data.data;
 
 			if (success) {
 				document.cookie = `JWT=${jwt};`
 				message.success(msg);
+				setJWT(jwt);
 				goMain();
 			} else {
 				message.error(msg);

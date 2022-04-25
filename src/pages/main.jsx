@@ -62,6 +62,12 @@ function MainPage() {
 				<Select
 					placeholder='Семестр'
 					className='filter-item'
+					options={[
+						{
+							value: 'строка',
+							title: 'строка'
+						}
+					]}
 				/>
 			</div>
 

@@ -12,7 +12,7 @@ function Header() {
 	const { pathname } = useLocation();
 
 	const { goback, goLogin, goReg } = useRedirect();
-	const { cookieJWT, CookiesDelete } = useCookies();
+	const { jwt, CookiesDelete } = useCookies();
 
 	const [hidden, setHidden] = useState(true);
 	const [activeKey, setActiveKey] = useState('main');
@@ -54,7 +54,7 @@ function Header() {
 					</Menu.Item>
 				</Menu>
 				<div className="auth-controller">
-					{cookieJWT.JWT
+					{jwt
 						? (
 							<>
 								<Button type="link" onClick={clear}>Выход</Button>
