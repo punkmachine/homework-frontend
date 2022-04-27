@@ -19,6 +19,20 @@ export const userApi = api.injectEndpoints({
 				body,
 			}),
 		}),
+		deleteUser: builder.mutation({
+			query: (body) => ({
+				url: `${endpoint}/delete`,
+				method: 'DELETE',
+				body,
+			})
+		}),
+		editUser: builder.mutation({
+			query: (body) => ({
+				url: `${endpoint}/change`,
+				method: 'PUT',
+				body,
+			}),
+		})
 	}),
 	overrideExisting: false,
 })
@@ -26,4 +40,6 @@ export const userApi = api.injectEndpoints({
 export const {
 	useLoginMutation,
 	useRegisterMutation,
+	useDeleteUserMutation,
+	useEditUserMutation,
 } = userApi;
