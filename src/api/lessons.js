@@ -28,5 +28,7 @@ export const lessonsApi = api.injectEndpoints({
 })
 
 export const {
-
+	useGetLessonsListQuery,
+	useCreateLessonMutation,
+	useDeleteLessonMutation,
 } = lessonsApi;
