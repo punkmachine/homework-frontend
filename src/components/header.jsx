@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, Typography, Button } from 'antd';
 import { LeftCircleOutlined } from '@ant-design/icons';
 
+import { logoutAction, refeachState } from '../redux/authSlice';
 import { useRedirect } from '../hooks/redirect';
 import { useCookies } from '../hooks/cookies';
 
@@ -10,9 +12,11 @@ import { SCHEDULE_PAGE_PATH, MAIN_PAGE_PATH } from '../constants/routes';
 
 function Header() {
 	const { pathname } = useLocation();
+	const dispatch = useDispatch();
+	const isAuth = useSelector((state) => state.authReducer.isAuth);
 
 	const { goback, goLogin, goReg } = useRedirect();
-	const { jwt, CookiesDelete } = useCookies();
+	const { CookiesDelete } = useCookies();
 
 	const [hidden, setHidden] = useState(true);
 	const [activeKey, setActiveKey] = useState('main');
@@ -24,6 +28,9 @@ function Header() {
 
 	function clear() {
 		CookiesDelete();
+		localStorage.clear();
+		dispatch(logoutAction());
+		dispatch(refeachState());
 	}
 
 	useEffect(() => {
@@ -32,6 +39,7 @@ function Header() {
 
 	useEffect(() => {
 		setActiveKey(localStorage.getItem('activeKey') ?? 'main');
+		dispatch(refeachState());
 	}, []);
 
 	return (
@@ -54,7 +62,7 @@ function Header() {
 					</Menu.Item>
 				</Menu>
 				<div className="auth-controller">
-					{jwt
+					{isAuth
 						? (
 							<>
 								<Button type="link" onClick={clear}>Выход</Button>

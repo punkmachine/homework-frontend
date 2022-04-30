@@ -1,20 +1,23 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Form, Button, Input, Typography, message } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 
 import { useLoginMutation } from '../api/user';
+import { loginAction } from '../redux/authSlice';
+
 import { useRedirect } from '../hooks/redirect';
-import { useCookies } from '../hooks/cookies';
+
 import { rules } from '../utils/rules';
 import { REGISTRATION_PAGE_PATH } from '../constants/routes';
 
 function Login() {
 	const [form] = Form.useForm();
+	const dispatch = useDispatch();
 
 	const [login] = useLoginMutation();
 	const { goMain } = useRedirect();
-	const { setJWT } = useCookies();
 
 	async function submitLogin(values) {
 		try {
@@ -22,10 +25,10 @@ function Login() {
 			const { success, msg, jwt } = data;
 
 			if (success) {
-				document.cookie = `JWT=${jwt};`
+				document.cookie = `JWT=${jwt};max-age=43200;`
+				dispatch(loginAction(data));
+
 				message.success(msg);
-				console.log('jwt  login >>>', jwt);
-				setJWT(jwt);
 				goMain();
 			} else {
 				message.error(msg);
