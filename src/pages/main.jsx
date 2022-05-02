@@ -1,35 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Typography, Select, AutoComplete } from 'antd';
+import { Row, Col, Typography, Select, AutoComplete, message, Button } from 'antd';
+import { useSelector } from 'react-redux';
+
+import { useGetLessonsListQuery } from '../api/lessons';
+
 import { CardLesson } from '../components/cardLesson';
+import { Spinner } from '../components/spinner';
 
 function MainPage() {
+	const isAuth = useSelector((state) => state.authReducer.isAuth);
+
+	const { data = [], isLoading, error } = useGetLessonsListQuery();
+	const { lessons = [] } = data;
+
 	const [stateSpan, setStateSpan] = useState(6);
 	const [options, setOptions] = useState([]);
 
-	const array = [
-		{
-			title: 'Английский язык',
-			id: 1,
-		},
-		{
-			title: 'Казахский язык',
-			id: 2,
-		},
-		{
-			title: 'Математика',
-			id: 3,
-		},
-		{
-			title: 'Физ-ра',
-			id: 4,
-		},
-	];
-
 	const onSearch = (searchText) => {
 		setOptions([
-			...array
-				.filter(item => item.title.toLowerCase().indexOf(searchText.toLowerCase()) > -1)
-				.map(item => ({ label: item.title, value: item.title }))
+			...lessons
+				.filter(item => item.name.toLowerCase().indexOf(searchText.toLowerCase()) > -1)
+				.map(item => ({ label: item.name, value: item.name }))
 		]);
 	};
 
@@ -41,35 +32,53 @@ function MainPage() {
 		} else if (screenWidth <= 768 && screenWidth > 425) {
 			setStateSpan(12);
 		} else if (screenWidth <= 425) setStateSpan(24);
-
-		setOptions([
-			...array.map(item => ({ label: item.title, value: item.id }))
-		])
 	}, []);
+
+	useEffect(() => {
+		setOptions([
+			...lessons.map(item => ({ label: item.name, value: item.name }))
+		]);
+	}, [isLoading])
+
+	if (isLoading) {
+		return <Spinner />
+	}
+
+	if (error) {
+		message.error(error);
+	}
 
 	return (
 		<div className='cardlist'>
 			<Typography.Title level={1} style={{ textAlign: 'center', margin: '15px 0' }}>Предметный лист</Typography.Title>
 
-			<div className="cardlist-filter">
-				<AutoComplete
-					options={options}
-					className='filter-item'
-					placeholder='Поиск...'
-					onSearch={onSearch}
-					allowClear
-				/>
-				<Select
-					placeholder='Семестр'
-					className='filter-item'
-					options={[
-						{
-							value: 'строка',
-							title: 'строка'
-						}
-					]}
-				/>
+			<div className='cardlist-controller'>
+				<div>
+					<Button
+						type='primary'
+						// onClick={}
+						disabled={!isAuth}
+						hidden={!isAuth}
+					>
+						Добавить
+					</Button>
+				</div>
+				<div className='cardlist-controller-filter'>
+					<AutoComplete
+						options={options}
+						className='filter-item'
+						placeholder='Поиск...'
+						onSearch={onSearch}
+						allowClear
+					/>
+					<Select
+						placeholder='Семестр'
+						className='filter-item'
+					// options={ }
+					/>
+				</div>
 			</div>
+
 
 			<div className="cards">
 				<Row gutter={[20, 20]} justify='center'>

@@ -75,6 +75,7 @@
 	box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.4);
 	cursor: pointer;
 	transition: 0.3s;
+	text-align: center;
 
 	&:hover {
 		box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.5);
@@ -108,10 +109,17 @@
 	text-align: center;
 }
 
-.cardlist-filter {
-	display: flex;
-	gap: 10px;
-	justify-content: space-between;
+.cardlist {
+	&-controller {
+		display: flex;
+		gap: 10px;
+		justify-content: space-between;
+
+		&-filter {
+			display: flex;
+			gap: 10px;
+		}
+	}
 }
 
 .cards {
@@ -120,6 +128,12 @@
 
 .filter-item {
 	width: 220px;
+}
+
+.spinner {
+	display: flex;
+	justify-content: center;
+	margin: 30px 0;
 }
 
 .login {
