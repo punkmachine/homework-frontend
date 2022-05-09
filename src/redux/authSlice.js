@@ -41,9 +41,9 @@ export const authSlice = createSlice({
 						[key]: value,
 					};
 				})
-				.filter(item => item.JWT);
+				.filter(item => item.jwt);
 
-			state.jwt = cookieJWT[0]?.JWT ?? null;
+			state.jwt = cookieJWT[0]?.jwt ?? null;
 			state.user = JSON.parse(localStorage.getItem('user'));
 			state.isAuth = !!state.jwt;
 		}

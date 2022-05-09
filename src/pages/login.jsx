@@ -25,7 +25,7 @@ function Login() {
 			const { success, msg, jwt } = data;
 
 			if (success) {
-				document.cookie = `JWT=${jwt};max-age=43200;`
+				document.cookie = `jwt=${jwt};max-age=43200;`
 				dispatch(loginAction(data));
 
 				message.success(msg);

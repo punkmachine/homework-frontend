@@ -21,7 +21,7 @@ function Registration() {
 			const { jwt } = data.data;
 
 			if (success) {
-				document.cookie = `JWT=${jwt};max-age=43200;`
+				document.cookie = `jwt=${jwt};max-age=43200;`
 				message.success(msg);
 				goMain();
 			} else {
