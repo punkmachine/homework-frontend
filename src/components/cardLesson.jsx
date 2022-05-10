@@ -4,14 +4,14 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { useRedirect } from '../hooks/redirect';
 
 function CardLesson(props) {
-	const { value: id, label: title } = props;
+	const { value: id, label: title, deleteLesson, hidden } = props;
 	const { goLesson } = useRedirect();
 
 	return (
 		<Card className='card-lesson'>
-			<div className="card-lesson-controller">
+			<div className="card-lesson-controller" hidden={hidden}>
 				<EditOutlined className='card-lesson-icon' />
-				<DeleteOutlined className='card-lesson-icon' />
+				<DeleteOutlined className='card-lesson-icon' onClick={() => deleteLesson(id)} />
 			</div>
 			<Typography.Title
 				level={5}
