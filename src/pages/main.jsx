@@ -85,7 +85,7 @@ function MainPage() {
 
 	useEffect(() => {
 		setOptions([
-			...lessons.map(item => ({ label: item.name, value: item.id }))
+			...lessons.map(item => ({ label: item.name, value: item.name }))
 		]);
 	}, [isLoading])
 
@@ -130,7 +130,7 @@ function MainPage() {
 
 			<div className="cards">
 				<Row gutter={[20, 20]} justify='center'>
-					{options.map((item, index) =>
+					{lessons.map((item, index) =>
 						<Col span={stateSpan} key={index}>
 							<CardLesson
 								deleteLesson={deleteLesson}
@@ -158,6 +158,7 @@ function MainPage() {
 							rules={rules.noNumber}
 						>
 							<Input
+								onPressEnter={createLesson}
 								placeholder='Введение название'
 							/>
 						</Form.Item>

@@ -4,7 +4,7 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { useRedirect } from '../hooks/redirect';
 
 function CardLesson(props) {
-	const { value: id, label: title, deleteLesson, hidden } = props;
+	const { id, name, deleteLesson, hidden } = props;
 	const { goLesson } = useRedirect();
 
 	return (
@@ -18,7 +18,7 @@ function CardLesson(props) {
 				className='card-lesson-title'
 				onClick={() => goLesson(id)}
 			>
-				{title}
+				{name}
 			</Typography.Title>
 		</Card>
 	);
