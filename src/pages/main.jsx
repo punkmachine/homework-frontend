@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Typography, Select, AutoComplete, message, Button, Modal, Form, Input } from 'antd';
+import { Row, Col, Typography, Select, message, Button, Modal, Form, Input } from 'antd';
 import { useSelector } from 'react-redux';
 
 import { useGetLessonsListQuery, useCreateLessonMutation, useDeleteLessonMutation } from '../api/lessons';
 
 import { CardLesson } from '../components/cardLesson';
-import { Spinner } from '../components/spinner';
+import { Spinner } from '../components/app/spinner';
 
 import { rules } from '../utils/rules';
 
@@ -144,7 +144,8 @@ function MainPage() {
 							<CardLesson
 								deleteLesson={deleteLesson}
 								hidden={!isAuth}
-								{...item}
+								name={item.name}
+								id={item.id}
 							/>
 						</Col>
 					)}

@@ -4,11 +4,11 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, Typography, Button } from 'antd';
 import { LeftCircleOutlined, MenuOutlined, CloseOutlined } from '@ant-design/icons';
 
-import { logoutAction, refeachState } from '../redux/authSlice';
-import { useRedirect } from '../hooks/redirect';
-import { useCookies } from '../hooks/cookies';
+import { logoutAction, refeachState } from '../../redux/authSlice';
+import { useRedirect } from '../../hooks/redirect';
+import { useCookies } from '../../hooks/cookies';
 
-import { SCHEDULE_PAGE_PATH, MAIN_PAGE_PATH } from '../constants/routes';
+import { SCHEDULE_PAGE_PATH, MAIN_PAGE_PATH } from '../../constants/routes';
 
 function Header() {
 	const { pathname } = useLocation();

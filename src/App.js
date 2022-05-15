@@ -9,7 +9,7 @@ import { SchedulePage } from './pages/schedule';
 import { Login } from './pages/login';
 import { Registration } from './pages/registration';
 
-import { Header } from './components/header';
+import { Header } from './components/app/header';
 
 import { LESSON_PAGE_PATH, SCHEDULE_PAGE_PATH, LOGIN_PAGE_PATH, REGISTRATION_PAGE_PATH } from './constants/routes';
 import { headData } from './constants/helmet';
