@@ -4,10 +4,12 @@ import { Link } from 'react-router-dom';
 import { Form, Button, Input, Typography, message } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 
-import { useLoginMutation } from '../api/user';
 import { loginAction } from '../redux/authSlice';
 
+import { useLoginMutation } from '../api/user';
 import { useRedirect } from '../hooks/redirect';
+
+import { MainTitle } from '../components/app/MainTitle';
 
 import { rules } from '../utils/rules';
 import { REGISTRATION_PAGE_PATH } from '../constants/routes';
@@ -41,7 +43,7 @@ function Login() {
 
 	return (
 		<div className='login-container'>
-			<Typography.Title level={1} style={{ textAlign: 'center', margin: '15px 0' }}>Вход</Typography.Title>
+			<MainTitle text='Вход' />
 
 			<Form
 				form={form}

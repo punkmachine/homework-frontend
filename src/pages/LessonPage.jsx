@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Typography, Row, Col, } from 'antd';
 import { useParams } from 'react-router-dom';
 import { CardTask } from '../components/cardTask';
+import { MainTitle } from '../components/app/MainTitle';
 
 function LessonPage() {
 	const { id } = useParams();
@@ -55,8 +56,7 @@ function LessonPage() {
 
 	return (
 		<div className="lesson-container">
-			<Typography.Title level={1} style={{ textAlign: 'center', margin: '15px 0' }}>Урок - {id}</Typography.Title>
-
+			<MainTitle text={`Урок - ${id}`} />
 			<div className="cards">
 				<Row gutter={[20, 20]} justify='center'>
 					{homeworks.map((item, index) =>

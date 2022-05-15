@@ -5,7 +5,11 @@ import { UserOutlined } from '@ant-design/icons';
 
 import { useRegisterMutation } from '../api/user';
 import { useRedirect } from '../hooks/redirect';
+
+import { MainTitle } from '../components/app/MainTitle';
+
 import { rules } from '../utils/rules';
+
 import { LOGIN_PAGE_PATH } from '../constants/routes';
 
 function Registration() {
@@ -35,7 +39,7 @@ function Registration() {
 
 	return (
 		<div className='registration-container'>
-			<Typography.Title level={1} style={{ textAlign: 'center', margin: '15px 0' }}>Регистрация</Typography.Title>
+			<MainTitle text='Регистрация' />
 
 			<Form
 				form={form}

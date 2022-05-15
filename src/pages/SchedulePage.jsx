@@ -1,5 +1,6 @@
 import React from 'react';
 import { Tabs, Typography, Table } from 'antd';
+import { MainTitle } from '../components/app/MainTitle';
 
 function SchedulePage() {
 	const columns = [
@@ -57,8 +58,7 @@ function SchedulePage() {
 
 	return (
 		<div className="shedule-wrapper">
-			<Typography.Title level={1} style={{ textAlign: 'center', margin: '15px 0' }}>Расписание</Typography.Title>
-
+			<MainTitle text='Расписание' />
 			<Tabs type="card">
 				<Tabs.TabPane tab="Понедельник" key="Monday">
 					<Table {...configTable} />
