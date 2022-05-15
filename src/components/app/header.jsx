@@ -42,8 +42,6 @@ function Header() {
 		setMobileMenu(window.screen.width <= 425);
 	}, []);
 
-	console.log(mobileMenu);
-
 	return (
 		<header className="header">
 			{mobileMenu ?

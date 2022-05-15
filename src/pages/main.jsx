@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Typography, Select, message, Button, Modal, Form, Input } from 'antd';
+import { Typography, message, Form } from 'antd';
 import { useSelector } from 'react-redux';
 
 import { useGetLessonsListQuery, useCreateLessonMutation, useDeleteLessonMutation } from '../api/lessons';
 
-import { CardLesson } from '../components/cardLesson';
 import { Spinner } from '../components/app/spinner';
-
-import { rules } from '../utils/rules';
+import { CardListController } from '../components/main-page/CardListController';
+import { CardList } from '../components/main-page/CardList';
+import { CreateLessonModal } from '../components/main-page/CreateLessonModal';
 
 function MainPage() {
 	const isAuth = useSelector((state) => state.authReducer.isAuth);
@@ -102,79 +102,26 @@ function MainPage() {
 	return (
 		<div className='cardlist'>
 			<Typography.Title level={1} style={{ textAlign: 'center', margin: '15px 0' }}>Предметный лист</Typography.Title>
-
-			<div className='cardlist-controller'>
-				<div className='cardlist-controller-button'>
-					<Button
-						type='primary'
-						onClick={showModalClick}
-						disabled={!isAuth}
-						hidden={!isAuth}
-					>
-						Добавить
-					</Button>
-					<Button
-						type='primary'
-						onClick={toggleShowFilters}
-						disabled={!isAuth}
-						hidden={!isDesktop}
-					>
-						Фильтра
-					</Button>
-				</div>
-				<div className='cardlist-controller-filter' hidden={!showFilters}>
-					<Input
-						className='filter-item'
-						placeholder='Поиск...'
-						onChange={onSearch}
-						allowClear
-					/>
-					<Select
-						placeholder='Семестр'
-						className='filter-item'
-					// options={ }
-					/>
-				</div>
-			</div>
-
-			<div className="cards">
-				<Row gutter={[20, 20]} justify='center'>
-					{lessonList.map((item, index) =>
-						<Col span={stateSpan} key={index}>
-							<CardLesson
-								deleteLesson={deleteLesson}
-								hidden={!isAuth}
-								name={item.name}
-								id={item.id}
-							/>
-						</Col>
-					)}
-				</Row>
-			</div>
-
-			<div className="create-lesson">
-				<Modal
-					visible={visible}
-					okText='Создать'
-					cancelText='Отмена'
-					onCancel={cancelClick}
-					title='Создание предмета'
-					destroyOnClose
-					onOk={createLesson}
-				>
-					<Form form={form}>
-						<Form.Item
-							name='name'
-							rules={rules.noNumber}
-						>
-							<Input
-								onPressEnter={createLesson}
-								placeholder='Введение название'
-							/>
-						</Form.Item>
-					</Form>
-				</Modal>
-			</div>
+			<CardListController
+				showModalClick={showModalClick}
+				isAuth={isAuth}
+				toggleShowFilters={toggleShowFilters}
+				isDesktop={isDesktop}
+				showFilters={showFilters}
+				onSearch={onSearch}
+			/>
+			<CardList
+				lessonList={lessonList}
+				stateSpan={stateSpan}
+				deleteLesson={deleteLesson}
+				isAuth={isAuth}
+			/>
+			<CreateLessonModal
+				visible={visible}
+				cancelClick={cancelClick}
+				createLesson={createLesson}
+				form={form}
+			/>
 		</div>
 	);
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, Card } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { useRedirect } from '../hooks/redirect';
+import { useRedirect } from '../../hooks/redirect';
 
 function CardLesson(props) {
 	const { id, name, deleteLesson, hidden } = props;
