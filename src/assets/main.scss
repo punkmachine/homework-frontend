@@ -4,64 +4,75 @@
 	margin: 0 auto;
 }
 
-.menu {
-	position: relative;
-
-	ul {
-		display: flex;
-		justify-content: center;
-	}
-
-	& > .auth-controller {
-		height: 100%;
-		position: absolute;
-		right: 50px;
-		display: flex;
-		gap: 10px;
-		align-items: center;
-		top: 0;
-	}
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid #f0f0f0;
+	padding: 0 15px;
 
 	.back {
-		height: 100%;
-		position: absolute;
-		left: 50px;
-		cursor: pointer;
 		display: flex;
-		gap: 10px;
 		align-items: center;
-		transition: 0.3s;
+		gap: 5px;
+	}
 
-		&-icon {
-			font-size: 20px;
+	.auth-controller {
+		display: flex;
+		gap: 15px;
+		justify-content: center;
+		align-items: center;
+
+		& > .ant-btn {
+			padding: 0;
+			margin: 0;
 		}
+	}
+}
 
-		&::after {
-			content: "";
-			opacity: 0;
-			height: 2px;
-			width: 80px;
-			background-color: #1890ff;
+.menu {
+	position: relative;
+	user-select: none;
+	display: flex;
+	justify-content: center;
+	gap: 20px;
+	align-items: center;
+	min-height: 45px;
+	font-size: 14px;
+	transition: 0.3s;
 
-			position: absolute;
-			bottom: 0;
-			left: -3px;
+	&-item {
+		transition: color 0.3s;
 
-			transition: 0.3s;
-		}
+		a {
+			color:rgba(0, 0, 0, 0.85);
+			text-decoration: none;
+			background-color: transparent;
+			outline: none;
+			cursor: pointer;
+			transition: color 0.3s;
+			line-height: 45px;
 
-		&:hover {
-			transition: 0.3s;
-
-			&::after {
-				opacity: 1;
+			&:hover {
+				color: #1890ff;
 			}
+		}
 
-			.ant-typography {
+		&.active {
+			position: relative;
+
+			a {
 				color: #1890ff;
 			}
 
-			color: #1890ff;
+			&::after {
+				content: '';
+				border-bottom: 2px solid #1890ff;
+				position: absolute;
+				bottom: 0px;
+				left: 0px;
+				width: 100%;
+			}
 		}
 	}
 }
@@ -216,6 +227,20 @@
 		
 		&-link {
 			margin-top: 10px;
+		}
+	}
+}
+
+@media (max-width: 425px) {
+	.cardlist {
+		&-controller {
+			flex-direction: column;
+	
+			&-button {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+			}
 		}
 	}
 }

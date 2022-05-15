@@ -21,7 +21,7 @@ function Header() {
 	const [hidden, setHidden] = useState(true);
 	const [activeKey, setActiveKey] = useState('main');
 
-	function selectMenu({ key }) {
+	function selectMenu(key) {
 		setActiveKey(key);
 		localStorage.setItem('activeKey', key);
 	}
@@ -44,38 +44,42 @@ function Header() {
 
 	return (
 		<header className="header">
+			<div className='back' onClick={goback} hidden={hidden}>
+				<LeftCircleOutlined className='back-icon' />
+				<Typography>Назад</Typography>
+			</div>
 			<nav className="menu">
-				<div className='back' onClick={goback} hidden={hidden}>
-					<LeftCircleOutlined className='back-icon' />
-					<Typography>Назад</Typography>
-				</div>
-				<Menu
-					mode="horizontal"
-					selectedKeys={[activeKey]}
-					onSelect={selectMenu}
+				<span
+					className={activeKey === 'main' ? "menu-item active" : "menu-item"}
+					onClick={() => selectMenu('main')}
 				>
-					<Menu.Item key='main'>
-						<Link to='/'>Главная</Link>
-					</Menu.Item>
-					<Menu.Item key='schedule'>
-						<Link to={SCHEDULE_PAGE_PATH}>Расписание</Link>
-					</Menu.Item>
-				</Menu>
-				<div className="auth-controller">
-					{isAuth
-						? (
-							<>
-								<Button type="link" onClick={clear}>Выход</Button>
-							</>
-						)
-						: (
-							<>
-								<Button type="link" onClick={goLogin}>Вход</Button>
-								<Button type="link" onClick={goReg}>Регистрация</Button>
-							</>
-						)}
-				</div>
+					<Link to='/'>
+						Главная
+					</Link>
+				</span>
+				<span
+					className={activeKey === 'schedule' ? "menu-item active" : "menu-item"}
+					onClick={() => selectMenu('schedule')}
+				>
+					<Link to={SCHEDULE_PAGE_PATH}>
+						Расписание
+					</Link>
+				</span>
 			</nav>
+			<div className="auth-controller">
+				{isAuth
+					? (
+						<>
+							<Button type="link" onClick={clear}>Выход</Button>
+						</>
+					)
+					: (
+						<>
+							<Button type="link" onClick={goLogin}>Вход</Button>
+							<Button type="link" onClick={goReg}>Регистрация</Button>
+						</>
+					)}
+			</div>
 		</header>
 	);
 }
