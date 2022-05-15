@@ -21,7 +21,6 @@ function MainPage() {
 	const { data = [], isLoading, error } = useGetLessonsListQuery();
 	const { lessons = [] } = data;
 
-	const [stateSpan, setStateSpan] = useState(6);
 	const [visible, setVisible] = useState(false);
 	const [isDesktop, setIsDesktop] = useState(false);
 	const [showFilters, setShowFilters] = useState(true);
@@ -68,6 +67,7 @@ function MainPage() {
 		}
 	}
 
+	// FIX: сделать хук useSearch
 	function onSearch(event) {
 		const searchText = event.target.value;
 		setLessonList([
@@ -75,18 +75,15 @@ function MainPage() {
 		]);
 	};
 
+	// FIX: сделать хук useToggle;
 	const toggleShowFilters = () => setShowFilters((prevState) => !prevState);
 
+	// FIX: убрать вообще и перенести stateSpan в <CardList />
 	useEffect(() => {
 		const screenWidth = window.screen.width;
 
-		if (screenWidth <= 1024 && screenWidth > 768) {
-			setStateSpan(8);
-		} else if (screenWidth <= 768 && screenWidth > 425) {
-			setStateSpan(12);
-		} else if (screenWidth <= 425) {
-			setStateSpan(24);
-			setIsDesktop(true);
+		if (screenWidth <= 425) {
+			setIsDesktop(false);
 			setShowFilters(false);
 		};
 	}, []);
@@ -98,6 +95,8 @@ function MainPage() {
 	if (isLoading) {
 		return <Spinner />
 	}
+
+	// FIX: сделать компонент вывода ошибок
 	if (error) message.error(error);
 
 	return (
@@ -113,7 +112,6 @@ function MainPage() {
 			/>
 			<CardList
 				lessonList={lessonList}
-				stateSpan={stateSpan}
 				deleteLesson={deleteLesson}
 				isAuth={isAuth}
 			/>

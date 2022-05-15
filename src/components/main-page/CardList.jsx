@@ -3,7 +3,18 @@ import { Row, Col } from 'antd';
 import { CardLesson } from './CardLesson';
 
 function CardList(props) {
-	const { lessonList, stateSpan, deleteLesson, isAuth } = props;
+	const { lessonList, deleteLesson, isAuth } = props;
+
+	const screenWidth = window.screen.width;
+	let stateSpan = 6;
+
+	if (screenWidth <= 1024 && screenWidth > 768) {
+		stateSpan = 8;
+	} else if (screenWidth <= 768 && screenWidth > 425) {
+		stateSpan = 12;
+	} else if (screenWidth <= 425) {
+		stateSpan = 24;
+	};
 
 	return (
 		<div className="cards">
