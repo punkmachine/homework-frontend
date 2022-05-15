@@ -4,7 +4,8 @@ import { useSelector } from 'react-redux';
 
 import { useGetLessonsListQuery, useCreateLessonMutation, useDeleteLessonMutation } from '../api/lessons';
 
-import { Spinner } from '../components/app/spinner';
+import { Spinner } from '../components/app/Spinner';
+import { MainTitle } from '../components/app/MainTitle';
 import { CardListController } from '../components/main-page/CardListController';
 import { CardList } from '../components/main-page/CardList';
 import { CreateLessonModal } from '../components/main-page/CreateLessonModal';
@@ -101,7 +102,7 @@ function MainPage() {
 
 	return (
 		<div className='cardlist'>
-			<Typography.Title level={1} style={{ textAlign: 'center', margin: '15px 0' }}>Предметный лист</Typography.Title>
+			<MainTitle text='Предметный лист' />
 			<CardListController
 				showModalClick={showModalClick}
 				isAuth={isAuth}
