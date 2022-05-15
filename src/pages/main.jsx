@@ -22,7 +22,9 @@ function MainPage() {
 
 	const [stateSpan, setStateSpan] = useState(6);
 	const [visible, setVisible] = useState(false);
-	const [options, setOptions] = useState([]);
+	const [isDesktop, setIsDesktop] = useState(false);
+	const [showFilters, setShowFilters] = useState(true);
+	const [lessonList, setLessonList] = useState([]);
 
 	const showModalClick = () => setVisible(true);
 
@@ -65,13 +67,14 @@ function MainPage() {
 		}
 	}
 
-	const onSearch = (searchText) => {
-		setOptions([
-			...lessons
-				.filter(item => item.name.toLowerCase().indexOf(searchText.toLowerCase()) > -1)
-				.map(item => ({ label: item.name, value: item.id }))
+	function onSearch(event) {
+		const searchText = event.target.value;
+		setLessonList([
+			...lessons.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase()))
 		]);
 	};
+
+	const toggleShowFilters = () => setShowFilters((prevState) => !prevState);
 
 	useEffect(() => {
 		const screenWidth = window.screen.width;
@@ -80,29 +83,28 @@ function MainPage() {
 			setStateSpan(8);
 		} else if (screenWidth <= 768 && screenWidth > 425) {
 			setStateSpan(12);
-		} else if (screenWidth <= 425) setStateSpan(24);
+		} else if (screenWidth <= 425) {
+			setStateSpan(24);
+			setIsDesktop(true);
+			setShowFilters(false);
+		};
 	}, []);
 
 	useEffect(() => {
-		setOptions([
-			...lessons.map(item => ({ label: item.name, value: item.name }))
-		]);
+		if (lessons.length > 0) setLessonList([...lessons]);
 	}, [isLoading])
 
 	if (isLoading) {
 		return <Spinner />
 	}
-
-	if (error) {
-		message.error(error);
-	}
+	if (error) message.error(error);
 
 	return (
 		<div className='cardlist'>
 			<Typography.Title level={1} style={{ textAlign: 'center', margin: '15px 0' }}>Предметный лист</Typography.Title>
 
 			<div className='cardlist-controller'>
-				<div>
+				<div className='cardlist-controller-button'>
 					<Button
 						type='primary'
 						onClick={showModalClick}
@@ -111,13 +113,20 @@ function MainPage() {
 					>
 						Добавить
 					</Button>
+					<Button
+						type='primary'
+						onClick={toggleShowFilters}
+						disabled={!isAuth}
+						hidden={!isDesktop}
+					>
+						Фильтра
+					</Button>
 				</div>
-				<div className='cardlist-controller-filter'>
-					<AutoComplete
-						options={options}
+				<div className='cardlist-controller-filter' hidden={!showFilters}>
+					<Input
 						className='filter-item'
 						placeholder='Поиск...'
-						onSearch={onSearch}
+						onChange={onSearch}
 						allowClear
 					/>
 					<Select
@@ -130,7 +139,7 @@ function MainPage() {
 
 			<div className="cards">
 				<Row gutter={[20, 20]} justify='center'>
-					{lessons.map((item, index) =>
+					{lessonList.map((item, index) =>
 						<Col span={stateSpan} key={index}>
 							<CardLesson
 								deleteLesson={deleteLesson}
