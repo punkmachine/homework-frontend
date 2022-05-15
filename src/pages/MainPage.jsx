@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, message, Form } from 'antd';
+import { message, Form } from 'antd';
 import { useSelector } from 'react-redux';
 
 import { useGetLessonsListQuery, useCreateLessonMutation, useDeleteLessonMutation } from '../api/lessons';
@@ -13,18 +13,19 @@ import { CreateLessonModal } from '../components/main-page/CreateLessonModal';
 function MainPage() {
 	const isAuth = useSelector((state) => state.authReducer.isAuth);
 
-	const [form] = Form.useForm();
+	const { data = [], isLoading, error } = useGetLessonsListQuery();
+	const { lessons = [] } = data;
 
 	const [create] = useCreateLessonMutation();
 	const [del] = useDeleteLessonMutation();
 
-	const { data = [], isLoading, error } = useGetLessonsListQuery();
-	const { lessons = [] } = data;
+	const [form] = Form.useForm();
 
 	const [visible, setVisible] = useState(false);
-	const [isDesktop, setIsDesktop] = useState(false);
 	const [showFilters, setShowFilters] = useState(true);
 	const [lessonList, setLessonList] = useState([]);
+
+	const isDesktop = window.screen.width <= 425;
 
 	const showModalClick = () => setVisible(true);
 
@@ -78,19 +79,13 @@ function MainPage() {
 	// FIX: сделать хук useToggle;
 	const toggleShowFilters = () => setShowFilters((prevState) => !prevState);
 
-	// FIX: убрать вообще и перенести stateSpan в <CardList />
-	useEffect(() => {
-		const screenWidth = window.screen.width;
-
-		if (screenWidth <= 425) {
-			setIsDesktop(false);
-			setShowFilters(false);
-		};
-	}, []);
-
 	useEffect(() => {
 		if (lessons.length > 0) setLessonList([...lessons]);
-	}, [isLoading])
+	}, [isLoading]);
+
+	useEffect(() => {
+		setShowFilters(!(window.screen.width <= 425));
+	}, []);
 
 	if (isLoading) {
 		return <Spinner />

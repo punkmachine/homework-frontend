@@ -18,7 +18,7 @@ function CardListController(props) {
 				<Button
 					type='primary'
 					onClick={toggleShowFilters}
-					disabled={!isAuth}
+					disabled={!isDesktop}
 					hidden={!isDesktop}
 				>
 					Фильтра
