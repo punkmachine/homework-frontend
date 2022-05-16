@@ -3,7 +3,6 @@ import { message, Form } from 'antd';
 import { useSelector } from 'react-redux';
 
 import { useGetLessonsListQuery, useCreateLessonMutation, useDeleteLessonMutation } from '../api/lessons';
-import { useToggle } from '../hooks/toggle';
 
 import { Spinner } from '../components/app/Spinner';
 import { MainTitle } from '../components/app/MainTitle';
@@ -21,8 +20,6 @@ function MainPage() {
 	const { lessons = [] } = data;
 	const [create] = useCreateLessonMutation();
 	const [del] = useDeleteLessonMutation();
-
-	const [showFilters, toggleShowFilters] = useToggle(!isDesktop);
 
 	const [visible, setVisible] = useState(false);
 	const [lessonList, setLessonList] = useState([]);
@@ -92,9 +89,7 @@ function MainPage() {
 			<CardListController
 				showModalClick={showModalClick}
 				isAuth={isAuth}
-				toggleShowFilters={toggleShowFilters}
 				isDesktop={isDesktop}
-				showFilters={showFilters}
 				onSearch={onSearch}
 			/>
 			<CardList

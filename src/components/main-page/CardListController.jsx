@@ -1,8 +1,11 @@
 import React from 'react';
 import { Select, Button, Input } from 'antd';
+import { useToggle } from '../../hooks/toggle';
 
 function CardListController(props) {
-	const { showModalClick, isAuth, toggleShowFilters, isDesktop, showFilters, onSearch } = props;
+	const { showModalClick, isAuth, isDesktop, onSearch } = props;
+
+	const [showFilters, toggleShowFilters] = useToggle(!isDesktop);
 
 	return (
 		<div className='cardlist-controller'>
