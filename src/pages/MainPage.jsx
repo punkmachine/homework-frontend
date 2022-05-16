@@ -3,6 +3,7 @@ import { message, Form } from 'antd';
 import { useSelector } from 'react-redux';
 
 import { useGetLessonsListQuery, useCreateLessonMutation, useDeleteLessonMutation } from '../api/lessons';
+import { useModal } from '../hooks/modal';
 
 import { Spinner } from '../components/app/Spinner';
 import { MainTitle } from '../components/app/MainTitle';
@@ -16,18 +17,17 @@ function MainPage() {
 	const isAuth = useSelector((state) => state.authReducer.isAuth);
 	const [form] = Form.useForm();
 
+	const [visible, toggleVisible] = useModal();
+
 	const { data = [], isLoading, error } = useGetLessonsListQuery();
 	const { lessons = [] } = data;
 	const [create] = useCreateLessonMutation();
 	const [del] = useDeleteLessonMutation();
 
-	const [visible, setVisible] = useState(false);
 	const [lessonList, setLessonList] = useState([]);
 
-	const showModalClick = () => setVisible(true);
-
 	function cancelClick() {
-		setVisible(false);
+		toggleVisible(false);
 		form.resetFields();
 	};
 
@@ -57,7 +57,7 @@ function MainPage() {
 				message.error(msg);
 			} else {
 				message.success(msg);
-				setVisible(false);
+				toggleVisible(false);
 				form.resetFields();
 			}
 		} catch (error) {
@@ -87,7 +87,7 @@ function MainPage() {
 		<div className='cardlist'>
 			<MainTitle text='Предметный лист' />
 			<CardListController
-				showModalClick={showModalClick}
+				showModalClick={() => toggleVisible(true)}
 				isAuth={isAuth}
 				isDesktop={isDesktop}
 				onSearch={onSearch}
