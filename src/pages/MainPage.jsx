@@ -3,6 +3,7 @@ import { message, Form } from 'antd';
 import { useSelector } from 'react-redux';
 
 import { useGetLessonsListQuery, useCreateLessonMutation, useDeleteLessonMutation } from '../api/lessons';
+import { useToggle } from '../hooks/toggle';
 
 import { Spinner } from '../components/app/Spinner';
 import { MainTitle } from '../components/app/MainTitle';
@@ -11,21 +12,20 @@ import { CardList } from '../components/main-page/CardList';
 import { CreateLessonModal } from '../components/main-page/CreateLessonModal';
 
 function MainPage() {
+	const isDesktop = window.screen.width <= 425;
+
 	const isAuth = useSelector((state) => state.authReducer.isAuth);
+	const [form] = Form.useForm();
 
 	const { data = [], isLoading, error } = useGetLessonsListQuery();
 	const { lessons = [] } = data;
-
 	const [create] = useCreateLessonMutation();
 	const [del] = useDeleteLessonMutation();
 
-	const [form] = Form.useForm();
+	const [showFilters, toggleShowFilters] = useToggle(!isDesktop);
 
 	const [visible, setVisible] = useState(false);
-	const [showFilters, setShowFilters] = useState(true);
 	const [lessonList, setLessonList] = useState([]);
-
-	const isDesktop = window.screen.width <= 425;
 
 	const showModalClick = () => setVisible(true);
 
@@ -68,7 +68,6 @@ function MainPage() {
 		}
 	}
 
-	// FIX: сделать хук useSearch
 	function onSearch(event) {
 		const searchText = event.target.value;
 		setLessonList([
@@ -76,16 +75,9 @@ function MainPage() {
 		]);
 	};
 
-	// FIX: сделать хук useToggle;
-	const toggleShowFilters = () => setShowFilters((prevState) => !prevState);
-
 	useEffect(() => {
 		if (lessons.length > 0) setLessonList([...lessons]);
 	}, [isLoading]);
-
-	useEffect(() => {
-		setShowFilters(!(window.screen.width <= 425));
-	}, []);
 
 	if (isLoading) {
 		return <Spinner />
