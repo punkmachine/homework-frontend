@@ -7,16 +7,24 @@ function CardLesson(props) {
 	const { id, name, deleteLesson, hidden } = props;
 	const { goLesson } = useRedirect();
 
+	function deleteLessonClick(event) {
+		event.stopPropagation();
+		deleteLesson(id);
+	}
+
+	function editLessonClick(event) {
+		event.stopPropagation();
+	}
+
 	return (
-		<Card className='card-lesson'>
+		<Card className='card-lesson' onClick={() => goLesson(id)}>
 			<div className="card-lesson-controller" hidden={hidden}>
-				<EditOutlined className='card-lesson-icon' />
-				<DeleteOutlined className='card-lesson-icon' onClick={() => deleteLesson(id)} />
+				<EditOutlined className='card-lesson-icon' onClick={editLessonClick} />
+				<DeleteOutlined className='card-lesson-icon' onClick={deleteLessonClick} />
 			</div>
 			<Typography.Title
 				level={5}
 				className='card-lesson-title'
-				onClick={() => goLesson(id)}
 			>
 				{name}
 			</Typography.Title>

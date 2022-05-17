@@ -5,17 +5,13 @@
 	box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.4);
 	transition: 0.3s;
 	text-align: center;
+	cursor: pointer;
 
 	&:hover {
 		box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.5);
-
-		.card-lesson-controller {
-			visibility: visible;
-		}
 	}
 
 	&-title {
-		cursor: pointer;
 		padding: 10px 10px 0 10px;
 
 		&::after {
@@ -35,7 +31,6 @@
 
 	&-controller {
 		transition: 0.3s;
-		visibility: hidden;
 		display: flex;
 		gap: 10px;
 		position: absolute;
