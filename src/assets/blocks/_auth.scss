@@ -1,31 +1,7 @@
 .login {
-	&-form {
-		width: 400px;
-		text-align: center;
-		margin: 0 auto;
-
-		&-submit {
-			padding: 0 2rem;
-		}
-		
-		&-link {
-			margin-top: 10px;
-		}
-	}
+	@include auth-form;
 }
 
 .registration {
-	&-form {
-		width: 400px;
-		text-align: center;
-		margin: 0 auto;
-
-		&-submit {
-			padding: 0 2rem;
-		}
-		
-		&-link {
-			margin-top: 10px;
-		}
-	}
+	@include auth-form;
 }

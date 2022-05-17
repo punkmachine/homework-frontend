@@ -1,8 +1,6 @@
 .card-lesson {
+	@include flex-center;
 	height: 200px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
 	border-radius: 15px;
 	box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.4);
 	transition: 0.3s;

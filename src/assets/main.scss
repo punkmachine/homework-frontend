@@ -1,3 +1,5 @@
+@import './base/mixins.scss';
+
 @import './blocks/header.scss';
 @import './blocks/mobile-menu.scss';
 @import './blocks/menu.scss';
@@ -75,9 +77,7 @@
 			flex-direction: column;
 	
 			&-button {
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
+				@include flex-sb-center;
 			}
 		}
 	}

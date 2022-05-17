@@ -1,7 +1,5 @@
 .header > div {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+	@include flex-sb-center;
 	border-bottom: 1px solid #f0f0f0;
 	min-height: 45px;
 	padding: 0 15px;
@@ -13,10 +11,8 @@
 	}
 
 	.auth-controller {
-		display: flex;
+		@include flex-center;
 		gap: 15px;
-		justify-content: center;
-		align-items: center;
 
 		& > .ant-btn {
 			padding: 0;
