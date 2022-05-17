@@ -1,0 +1,45 @@
+.menu {
+	position: relative;
+	user-select: none;
+	display: flex;
+	justify-content: center;
+	gap: 20px;
+	align-items: center;
+	font-size: 14px;
+	transition: 0.3s;
+
+	&-item {
+		transition: color 0.3s;
+
+		a {
+			color:rgba(0, 0, 0, 0.85);
+			text-decoration: none;
+			background-color: transparent;
+			outline: none;
+			cursor: pointer;
+			transition: color 0.3s;
+			line-height: 45px;
+
+			&:hover {
+				color: #1890ff;
+			}
+		}
+
+		&.active {
+			position: relative;
+
+			a {
+				color: #1890ff;
+			}
+
+			&::after {
+				content: '';
+				border-bottom: 2px solid #1890ff;
+				position: absolute;
+				bottom: 0px;
+				left: 0px;
+				width: 100%;
+			}
+		}
+	}
+}

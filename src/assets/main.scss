@@ -1,3 +1,10 @@
+@import './blocks/header.scss';
+@import './blocks/mobile-menu.scss';
+@import './blocks/menu.scss';
+@import './blocks/card-lesson.scss';
+@import './blocks/card-homework.scss';
+@import './blocks/auth.scss';
+
 .content {
 	padding: 10px;
 	max-width: 1440px;
@@ -11,33 +18,6 @@
 .main-title {
 	text-align: center;
 	margin: 15px 0;
-}
-
-.header > div {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	border-bottom: 1px solid #f0f0f0;
-	min-height: 45px;
-	padding: 0 15px;
-
-	.back {
-		display: flex;
-		align-items: center;
-		gap: 5px;
-	}
-
-	.auth-controller {
-		display: flex;
-		gap: 15px;
-		justify-content: center;
-		align-items: center;
-
-		& > .ant-btn {
-			padding: 0;
-			margin: 0;
-		}
-	}
 }
 
 .close-menu {
@@ -56,175 +36,6 @@
 	height: 100%;
 	z-index: 9;
 	background-color: rgba(0, 0, 0, 0.3);
-}
-
-.mobile-menu {
-	&-content {
-		padding: 10px 15px;
-		display: flex;
-		flex-direction: column;
-		background-color: #fff;
-		position: absolute;
-		right: 0;
-		top: 0;
-		width: 45%;
-		height: 100vh;
-		z-index: 10;
-		border-left: 1px solid #f0f0f0;
-	}
-
-	&-nav {
-		display: flex;
-		flex-direction: column;
-	}
-
-	&-auth {
-		margin-top: 30px;
-		display: flex;
-		flex-direction: column;
-
-		& > .ant-btn {
-			text-align: left;
-			padding-left: 0;
-		}
-	}
-}
-
-.menu {
-	position: relative;
-	user-select: none;
-	display: flex;
-	justify-content: center;
-	gap: 20px;
-	align-items: center;
-	font-size: 14px;
-	transition: 0.3s;
-
-	&-item {
-		transition: color 0.3s;
-
-		a {
-			color:rgba(0, 0, 0, 0.85);
-			text-decoration: none;
-			background-color: transparent;
-			outline: none;
-			cursor: pointer;
-			transition: color 0.3s;
-			line-height: 45px;
-
-			&:hover {
-				color: #1890ff;
-			}
-		}
-
-		&.active {
-			position: relative;
-
-			a {
-				color: #1890ff;
-			}
-
-			&::after {
-				content: '';
-				border-bottom: 2px solid #1890ff;
-				position: absolute;
-				bottom: 0px;
-				left: 0px;
-				width: 100%;
-			}
-		}
-	}
-}
-
-.card-lesson {
-	height: 200px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	border-radius: 15px;
-	box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.4);
-	transition: 0.3s;
-	text-align: center;
-
-	&:hover {
-		box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.5);
-
-		.card-lesson-controller {
-			visibility: visible;
-		}
-	}
-
-	&-title {
-		cursor: pointer;
-		padding: 10px 10px 0 10px;
-
-		&::after {
-			content: '';
-			display: block;
-			margin: 0 auto;
-			width: 0;
-			height: 2px;
-			background-color: rgba(0, 0, 0, 0.85);
-			transition: width 0.3s ease-out;
-		}
-
-		&:hover:after {
-			width: 100%;
-		}
-	}
-
-	&-controller {
-		transition: 0.3s;
-		visibility: hidden;
-		display: flex;
-		gap: 10px;
-		position: absolute;
-		right: 15px;
-		top: 15px;
-	}
-
-	&-icon {
-		cursor: pointer;
-		font-size: 20px;
-		transition: 0.3s;
-		border-radius: 50%;
-		padding: 5px;
-
-		&:hover {
-			background-color:#b5f5ec;
-		}
-
-		&:hover:nth-child(1) {
-			color: #1890ff;
-		}
-
-		&:hover:nth-child(2) {
-			color: #f5222d;
-		}
-	}
-}
-
-.card-homework {
-	// height: 200px;
-	border-radius: 15px;
-	box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.4);
-	cursor: pointer;
-	transition: 0.3s;
-
-	&-title {
-		display: flex;
-		justify-content: space-between;
-	}
-
-	&-footer {
-		display: flex;
-		justify-content: space-between;
-		margin-top: 50px;
-	}
-
-	&:hover {
-		box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.5);
-	}
 }
 
 .title-card {
@@ -256,38 +67,6 @@
 	display: flex;
 	justify-content: center;
 	margin: 30px 0;
-}
-
-.login {
-	&-form {
-		width: 400px;
-		text-align: center;
-		margin: 0 auto;
-
-		&-submit {
-			padding: 0 2rem;
-		}
-		
-		&-link {
-			margin-top: 10px;
-		}
-	}
-}
-
-.registration {
-	&-form {
-		width: 400px;
-		text-align: center;
-		margin: 0 auto;
-
-		&-submit {
-			padding: 0 2rem;
-		}
-		
-		&-link {
-			margin-top: 10px;
-		}
-	}
 }
 
 @media (max-width: 425px) {
