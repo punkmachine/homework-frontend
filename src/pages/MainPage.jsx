@@ -80,7 +80,6 @@ function MainPage() {
 		return <Spinner />
 	}
 
-	// FIX: сделать компонент вывода ошибок
 	if (error) message.error(error);
 
 	return (
