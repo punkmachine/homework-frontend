@@ -52,7 +52,7 @@ function Header() {
 					</div>
 					<div className="hz" hidden={!showMobileMenuContent} onClick={toggleMobileMenu} />
 				</div>
-				: (<div>
+				: (<div className={hidden ? 'hidden-back' : ''}>
 					<div className='back' onClick={goback} hidden={hidden}>
 						<LeftCircleOutlined className='back-icon' />
 						<Typography>Назад</Typography>
