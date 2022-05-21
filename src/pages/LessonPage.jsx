@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Row, Col, } from 'antd';
+import { Row, Col, } from 'antd';
 import { useParams } from 'react-router-dom';
 import { CardTask } from '../components/cardTask';
 import { MainTitle } from '../components/app/MainTitle';

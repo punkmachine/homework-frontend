@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tabs, Typography, Table } from 'antd';
+import { Tabs, Table } from 'antd';
 import { MainTitle } from '../components/app/MainTitle';
 
 function SchedulePage() {
