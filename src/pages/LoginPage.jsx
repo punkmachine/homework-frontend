@@ -10,8 +10,11 @@ import { useLoginMutation } from '../api/user';
 import { useRedirect } from '../hooks/redirect';
 
 import { MainTitle } from '../components/app/MainTitle';
+import { InputFormItem } from '../components/app/InputFormItem';
 
 import { rules } from '../utils/rules';
+
+import { loginForm } from '../constants/form-list';
 import { REGISTRATION_PAGE_PATH } from '../constants/routes';
 
 function Login() {
@@ -29,7 +32,6 @@ function Login() {
 			if (success) {
 				document.cookie = `jwt=${jwt};max-age=43200;`
 				dispatch(loginAction(data));
-
 				message.success(msg);
 				goMain();
 			} else {
@@ -50,29 +52,14 @@ function Login() {
 				className='login-form'
 				onFinish={submitLogin}
 			>
-				<Form.Item
-					name='login'
-					className='login-form-item'
-					rules={rules.login}
-				>
-					<Input
-						placeholder='Введите логин'
+				{loginForm.map(item =>
+					<InputFormItem
+						{...item}
+						key={item.name}
+						className='login-form-item'
 						size="large"
-						prefix={<UserOutlined />}
 					/>
-				</Form.Item>
-				<Form.Item
-					name='password'
-					className='login-form-item'
-					rules={rules.password}
-				>
-					<Input.Password
-						placeholder='Введите пароль'
-						size="large"
-						prefix={<UserOutlined />}
-					/>
-				</Form.Item>
-
+				)}
 				<Button
 					className='login-form-submit'
 					type='primary'

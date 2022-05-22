@@ -10,8 +10,8 @@ export const registrationForm = [
 	{
 		name: 'login',
 		placeholder: 'Введите логин',
-		type: 'password',
-		rules: rules.password,
+		type: 'input',
+		rules: rules.login,
 	},
 	{
 		name: 'password',
@@ -25,4 +25,19 @@ export const registrationForm = [
 		type: 'password',
 		rules: rules.confirmPassword,
 	},
+];
+
+export const loginForm = [
+	{
+		name: 'login',
+		placeholder: 'Введите логин',
+		type: 'input',
+		rules: rules.login,
+	},
+	{
+		name: 'password',
+		placeholder: 'Введите пароль',
+		type: 'password',
+		rules: rules.password,
+	}
 ];
