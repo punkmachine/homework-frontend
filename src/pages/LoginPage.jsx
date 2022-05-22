@@ -53,7 +53,7 @@ function Login() {
 				<Form.Item
 					name='login'
 					className='login-form-item'
-					rules={rules.email}
+					rules={rules.login}
 				>
 					<Input
 						placeholder='Введите логин'

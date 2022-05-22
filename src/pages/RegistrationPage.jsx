@@ -60,7 +60,7 @@ function Registration() {
 				<Form.Item
 					name='login'
 					className='registration-form-item'
-					rules={rules.email}
+					rules={rules.login}
 				>
 					<Input
 						placeholder='Введите логин'
