@@ -1,8 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Form, Button, Input, Typography, message } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { Form, Button, Typography, message } from 'antd';
 
 import { loginAction } from '../redux/authSlice';
 
@@ -11,8 +10,6 @@ import { useRedirect } from '../hooks/redirect';
 
 import { MainTitle } from '../components/app/MainTitle';
 import { InputFormItem } from '../components/app/InputFormItem';
-
-import { rules } from '../utils/rules';
 
 import { loginForm } from '../constants/form-list';
 import { REGISTRATION_PAGE_PATH } from '../constants/routes';

@@ -1,39 +1,13 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { SCHEDULE_PAGE_PATH, EXAMS_PAGE_PATH } from '../../../constants/routes';
+import { MenuItem } from './MenuItem';
+import { menuItemList } from '../../../constants/routes';
 
 function MenuNav(props) {
-	const { pathname } = useLocation();
 	const { showMobileMenuContent = true, className } = props;
-
-	const selectMenu = (key) => localStorage.setItem('activeKey', key);
 
 	return (
 		<nav className={className} hidden={!showMobileMenuContent}>
-			<span
-				className={pathname === '/' ? "menu-item active" : "menu-item"}
-				onClick={() => selectMenu('/')}
-			>
-				<Link to='/'>
-					Главная
-				</Link>
-			</span>
-			<span
-				className={pathname === SCHEDULE_PAGE_PATH ? "menu-item active" : "menu-item"}
-				onClick={() => selectMenu(SCHEDULE_PAGE_PATH)}
-			>
-				<Link to={SCHEDULE_PAGE_PATH}>
-					Расписание
-				</Link>
-			</span>
-			<span
-				className={pathname === EXAMS_PAGE_PATH ? "menu-item active" : "menu-item"}
-				onClick={() => selectMenu(EXAMS_PAGE_PATH)}
-			>
-				<Link to={EXAMS_PAGE_PATH}>
-					Экзамены
-				</Link>
-			</span>
+			{menuItemList.map(item => <MenuItem key={item.key} {...item} />)}
 		</nav>
 	);
 }
