@@ -7,9 +7,11 @@ import { useRegisterMutation } from '../api/user';
 import { useRedirect } from '../hooks/redirect';
 
 import { MainTitle } from '../components/app/MainTitle';
+import { InputFormItem } from '../components/app/InputFormItem';
 
 import { rules } from '../utils/rules';
 
+import { registrationForm } from '../constants/form-list';
 import { LOGIN_PAGE_PATH } from '../constants/routes';
 
 function Registration() {
@@ -22,9 +24,9 @@ function Registration() {
 		try {
 			const { data } = await reg(values);
 			const { success, msg } = data;
-			const { jwt } = data.data;
 
 			if (success) {
+				const { jwt } = data.data;
 				document.cookie = `jwt=${jwt};max-age=43200;`
 				message.success(msg);
 				goMain();
@@ -46,7 +48,16 @@ function Registration() {
 				className='registration-form'
 				onFinish={submitRegistration}
 			>
-				<Form.Item
+				{registrationForm.map(item =>
+					<InputFormItem
+						{...item}
+						key={item.name}
+						className='registration-form-item'
+						size="large"
+					/>
+				)}
+
+				{/* <Form.Item
 					name='name'
 					className='registration-form-item'
 					rules={rules.required}
@@ -56,7 +67,7 @@ function Registration() {
 						size="large"
 						prefix={<UserOutlined />}
 					/>
-				</Form.Item>
+				</Form.Item> 
 				<Form.Item
 					name='login'
 					className='registration-form-item'
@@ -89,7 +100,7 @@ function Registration() {
 						size="large"
 						prefix={<UserOutlined />}
 					/>
-				</Form.Item>
+				</Form.Item> */}
 
 				<Button
 					className='registration-form-submit'
