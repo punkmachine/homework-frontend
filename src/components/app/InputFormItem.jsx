@@ -1,9 +1,14 @@
 import React from 'react';
 import { Form, Input } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import Icon from '@ant-design/icons';
 
 function InputFormItem(props) {
-	const { name, rules, placeholder, size, className, type } = props;
+	const { name, rules, placeholder, size, className, type, icon } = props;
+
+	const config = {
+		placeholder,
+		size,
+	};
 
 	return (
 		<Form.Item
@@ -13,15 +18,13 @@ function InputFormItem(props) {
 		>
 			{type === 'input' ?
 				<Input
-					placeholder={placeholder}
-					size={size}
-					prefix={<UserOutlined />}
+					{...config}
+					prefix={<Icon component={icon} />}
 				/>
 				: type === 'password' ?
 					<Input.Password
-						placeholder={placeholder}
-						size={size}
-						prefix={<UserOutlined />}
+						{...config}
+						prefix={<Icon component={icon} />}
 					/>
 					: null
 			}

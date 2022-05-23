@@ -24,10 +24,7 @@ export const authSlice = createSlice({
 			state.isAuth = true;
 		},
 		logoutAction: (state) => {
-			console.log('done');
 			state = { ...initialState };
-
-			console.log(state);
 		},
 		refeachState: (state) => {
 			let cookieJWT = document.cookie

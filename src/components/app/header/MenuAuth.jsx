@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 
 import { logoutAction, refeachState } from '../../../redux/authSlice';
 
@@ -13,7 +14,7 @@ function MenuAuth(props) {
 	const dispatch = useDispatch();
 	const isAuth = useSelector((state) => state.authReducer.isAuth);
 
-	const { goLogin, goReg } = useRedirect();
+	const { goLogin, goReg, goProfile } = useRedirect();
 	const { CookiesDelete } = useCookies();
 
 	function clear() {
@@ -28,7 +29,8 @@ function MenuAuth(props) {
 			{isAuth
 				? (
 					<>
-						<Button type="link" onClick={clear}>Выход</Button>
+						<UserOutlined className='profile-icon' onClick={goProfile} />
+						<Button type="link" className='exit-btn' onClick={clear}>Выход</Button>
 					</>
 				)
 				: (
