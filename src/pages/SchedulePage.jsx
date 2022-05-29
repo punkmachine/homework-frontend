@@ -17,8 +17,43 @@ import { scheduleTable } from '../constants/columns-settings';
 // TODO: добавить объединение строк в одной колонке, если они одинаковые (https://ant.design/components/table/?theme=dark#components-table-demo-colspan-rowspan)
 // TODO: добавить динамическое подсвечивание пар, если они сейчас идут, скоро будут или уже прошли.
 
+const dictionaryDay = [
+	{
+		number: 1,
+		key: 'Monday',
+		name: 'Понедельник',
+		alias: 'mon',
+	},
+	{
+		number: 2,
+		key: 'Tuesday',
+		name: 'Вторник',
+		alias: 'tue',
+	},
+	{
+		number: 3,
+		key: 'Wednesday',
+		name: 'Среда',
+		alias: 'wed',
+	},
+	{
+		number: 4,
+		key: 'Thursday',
+		name: 'Четверг',
+		alias: 'thu',
+	},
+	{
+		number: 5,
+		key: 'Friday',
+		name: 'Пятница',
+		alias: 'fri',
+	},
+];
+
 function SchedulePage() {
 	const isAuth = useSelector((state) => state.authReducer.isAuth);
+	const newDate = new Date();
+	// console.log('newDate >>>', newDate.getDay());
 
 	const { data = {}, isLoading, error } = useGetScheduleQuery();
 	const { schedule = [] } = data;
@@ -61,46 +96,16 @@ function SchedulePage() {
 		<div className="shedule-wrapper">
 			<MainTitle text='Расписание' />
 			<Tabs type="card">
-				<Tabs.TabPane tab="Понедельник" key="Monday">
-					<Table
-						dataSource={scheduleData.mon}
-						columns={getClearColumns(scheduleTable)}
-						pagination={false}
-						bordered
-					/>
-				</Tabs.TabPane>
-				<Tabs.TabPane tab="Вторник" key="Tuesday">
-					<Table
-						dataSource={scheduleData.tue}
-						columns={getClearColumns(scheduleTable)}
-						pagination={false}
-						bordered
-					/>
-				</Tabs.TabPane>
-				<Tabs.TabPane tab="Среда" key="Wednesday">
-					<Table
-						dataSource={scheduleData.wed}
-						columns={getClearColumns(scheduleTable)}
-						pagination={false}
-						bordered
-					/>
-				</Tabs.TabPane>
-				<Tabs.TabPane tab="Четверг" key="Thursday">
-					<Table
-						dataSource={scheduleData.thu}
-						columns={getClearColumns(scheduleTable)}
-						pagination={false}
-						bordered
-					/>
-				</Tabs.TabPane>
-				<Tabs.TabPane tab="Пятница" key="Friday">
-					<Table
-						dataSource={scheduleData.fri}
-						columns={getClearColumns(scheduleTable)}
-						pagination={false}
-						bordered
-					/>
-				</Tabs.TabPane>
+				{dictionaryDay.map(day =>
+					<Tabs.TabPane tab={day.name} key={day.key}>
+						<Table
+							dataSource={scheduleData[day.alias]}
+							columns={getClearColumns(scheduleTable)}
+							pagination={false}
+							bordered
+						/>
+					</Tabs.TabPane>
+				)}
 			</Tabs>
 		</div>
 	);
