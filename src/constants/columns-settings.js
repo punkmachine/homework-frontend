@@ -41,6 +41,7 @@ export const scheduleTable = [
 		title: 'Аудитория',
 		key: 'classroom',
 		dataIndex: 'classroom',
+		align: 'center',
 	},
 	{
 		title: 'Преподаватель',
