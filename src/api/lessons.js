@@ -8,7 +8,13 @@ export const lessonsApi = api.injectEndpoints({
 	endpoints: (builder) => ({
 		getLessonsList: builder.query({
 			query: () => `${endpoint}`,
-			providesTags: [LESSONS_LIST],
+			providesTags: (result) =>
+				result.lessons
+					? [
+						...result.lessons.map(({ id }) => ({ type: LESSONS_LIST, id })),
+						{ type: LESSONS_LIST },
+					]
+					: [{ type: LESSONS_LIST }],
 		}),
 		createLesson: builder.mutation({
 			query: (body) => ({
@@ -16,14 +22,14 @@ export const lessonsApi = api.injectEndpoints({
 				method: 'POST',
 				body
 			}),
-			invalidatesTags: [LESSONS_LIST],
+			invalidatesTags: [{ type: LESSONS_LIST }],
 		}),
 		deleteLesson: builder.mutation({
 			query: (id) => ({
 				url: `${endpoint}/delete/${id}`,
 				method: 'DELETE'
 			}),
-			invalidatesTags: [LESSONS_LIST],
+			invalidatesTags: [{ type: LESSONS_LIST }],
 		}),
 		updateLesson: builder.mutation({
 			query: (body) => ({
@@ -31,7 +37,7 @@ export const lessonsApi = api.injectEndpoints({
 				method: 'PUT',
 				body
 			}),
-			invalidatesTags: [LESSONS_LIST],
+			invalidatesTags: [{ type: LESSONS_LIST }],
 		}),
 	}),
 	overrideExisting: false,

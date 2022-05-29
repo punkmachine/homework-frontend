@@ -19,7 +19,7 @@ function MainPage() {
 
 	const [visible, toggleVisible] = useModal();
 
-	const { data = [], isLoading, error } = useGetLessonsListQuery();
+	const { data = {}, isLoading, error } = useGetLessonsListQuery();
 	const { lessons = [] } = data;
 	const [create] = useCreateLessonMutation();
 	const [del] = useDeleteLessonMutation();
@@ -74,7 +74,7 @@ function MainPage() {
 
 	useEffect(() => {
 		if (lessons.length > 0) setLessonList([...lessons]);
-	}, [isLoading]);
+	}, [lessons.length]);
 
 	if (isLoading) {
 		return <Spinner />
