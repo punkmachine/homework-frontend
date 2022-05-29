@@ -38,7 +38,7 @@ export const scheduleApi = api.injectEndpoints({
 })
 
 export const {
-	useGetScheduleListQuery,
+	useGetScheduleQuery,
 	useCreateScheduleItemMutation,
 	useDeleteScheduleItemMutation,
 	useUpdateScheduleItemMutation,

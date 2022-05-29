@@ -74,7 +74,7 @@ function MainPage() {
 
 	useEffect(() => {
 		if (lessons.length > 0) setLessonList([...lessons]);
-	}, [lessons.length]);
+	}, [lessons]);
 
 	if (isLoading) {
 		return <Spinner />
