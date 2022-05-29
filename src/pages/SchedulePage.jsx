@@ -15,7 +15,6 @@ import { scheduleTable } from '../constants/columns-settings';
 // TODO: добавить drag-n-drop в режим редактирования таблицы.
 // TODO: добавить ссылку на тз к этому предмету и отметку, есть ли они на ближайшую дату.
 // TODO: добавить объединение строк в одной колонке, если они одинаковые (https://ant.design/components/table/?theme=dark#components-table-demo-colspan-rowspan)
-// TODO: форматирование даты по Intl в колонках.
 // TODO: добавить динамическое подсвечивание пар, если они сейчас идут, скоро будут или уже прошли.
 
 function SchedulePage() {

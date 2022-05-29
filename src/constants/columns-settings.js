@@ -15,11 +15,13 @@ export const scheduleTable = [
 		title: 'Время начала',
 		key: 'dateStart',
 		dataIndex: 'time_start',
+		render: (time) => <span>{time.slice(0, 5)}</span>
 	},
 	{
 		title: 'Время окончания',
 		key: 'dateEnd',
 		dataIndex: 'time_end',
+		render: (time) => <span>{time.slice(0, 5)}</span>
 	},
 	{
 		title: 'Тип занятия',
