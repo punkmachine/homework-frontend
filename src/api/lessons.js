@@ -25,8 +25,14 @@ export const lessonsApi = api.injectEndpoints({
 			}),
 			invalidatesTags: [LESSONS_LIST],
 		}),
-
-		//отсутствовал lesson update.
+		updateLesson: builder.mutation({
+			query: (body) => ({
+				url: `${endpoint}/edit`,
+				method: 'PUT',
+				body
+			}),
+			invalidatesTags: [LESSONS_LIST],
+		}),
 	}),
 	overrideExisting: false,
 })
@@ -35,4 +41,5 @@ export const {
 	useGetLessonsListQuery,
 	useCreateLessonMutation,
 	useDeleteLessonMutation,
+	useUpdateLessonMutation,
 } = lessonsApi;
