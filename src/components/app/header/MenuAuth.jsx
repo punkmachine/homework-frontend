@@ -20,6 +20,7 @@ function MenuAuth(props) {
 	function clear() {
 		CookiesDelete();
 		localStorage.clear();
+		sessionStorage.clear();
 		dispatch(logoutAction());
 		dispatch(refeachState());
 	}

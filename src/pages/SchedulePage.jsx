@@ -13,7 +13,6 @@ import { scheduleTable } from '../constants/columns-settings';
 
 // TODO: добавить режим редактирования таблицы.
 // TODO: добавить drag-n-drop в режим редактирования таблицы.
-// TODO: запоминать выбранный таб в session storage.
 // TODO: добавить объединение строк в одной колонке, если они одинаковые (https://ant.design/components/table/?theme=dark#components-table-demo-colspan-rowspan)
 // TODO: добавить динамическое подсвечивание пар, если они сейчас идут, скоро будут или уже прошли.
 // ! TODO: добавить выделение таба, который соответсвует сегоднешнему дню.
@@ -71,6 +70,10 @@ function SchedulePage() {
 	}
 
 	const scheduleMapping = (arr, day) => [...arr.filter(item => item.day === day).map((item, index) => ({ ...item, number: index + 1 }))];
+	const getDefaultActiveKey = () => !sessionStorage.getItem('scheduleTab')
+		? `${newDate.getDay() > 5 || newDate.getDay() < 1 ? 1 : newDate.getDay()}`
+		: sessionStorage.getItem('scheduleTab');;
+	const onClickTab = (key) => sessionStorage.setItem('scheduleTab', key);
 
 	useEffect(() => {
 		if (schedule.length > 0) {
@@ -102,7 +105,8 @@ function SchedulePage() {
 			<MainTitle text='Расписание' />
 			<Tabs
 				type="card"
-				defaultActiveKey={`${newDate.getDay() > 5 || newDate.getDay() < 1 ? 1 : newDate.getDay()}`}
+				defaultActiveKey={() => getDefaultActiveKey()}
+				onChange={onClickTab}
 			>
 				{dictionaryDay.map(day =>
 					<Tabs.TabPane
