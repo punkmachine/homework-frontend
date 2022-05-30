@@ -89,7 +89,7 @@ function SchedulePage() {
 	return (
 		<div className="shedule-wrapper">
 			<MainTitle text='Расписание' />
-			<Tabs type="card" defaultActiveKey={`${newDate.getDay()}`}>
+			<Tabs type="card" defaultActiveKey={`${newDate.getDay() > 5 || newDate.getDay() < 1 ? 1 : newDate.getDay()}`}>
 				{dictionaryDay.map(day =>
 					<Tabs.TabPane tab={day.name} key={`${day.key}`}>
 						<Table
