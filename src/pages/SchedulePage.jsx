@@ -19,32 +19,27 @@ import { scheduleTable } from '../constants/columns-settings';
 
 const dictionaryDay = [
 	{
-		number: 1,
-		key: 'Monday',
+		key: 1,
 		name: 'Понедельник',
 		alias: 'mon',
 	},
 	{
-		number: 2,
-		key: 'Tuesday',
+		key: 2,
 		name: 'Вторник',
 		alias: 'tue',
 	},
 	{
-		number: 3,
-		key: 'Wednesday',
+		key: 3,
 		name: 'Среда',
 		alias: 'wed',
 	},
 	{
-		number: 4,
-		key: 'Thursday',
+		key: 4,
 		name: 'Четверг',
 		alias: 'thu',
 	},
 	{
-		number: 5,
-		key: 'Friday',
+		key: 5,
 		name: 'Пятница',
 		alias: 'fri',
 	},
@@ -53,7 +48,6 @@ const dictionaryDay = [
 function SchedulePage() {
 	const isAuth = useSelector((state) => state.authReducer.isAuth);
 	const newDate = new Date();
-	// console.log('newDate >>>', newDate.getDay());
 
 	const { data = {}, isLoading, error } = useGetScheduleQuery();
 	const { schedule = [] } = data;
@@ -95,9 +89,9 @@ function SchedulePage() {
 	return (
 		<div className="shedule-wrapper">
 			<MainTitle text='Расписание' />
-			<Tabs type="card">
+			<Tabs type="card" defaultActiveKey={`${newDate.getDay()}`}>
 				{dictionaryDay.map(day =>
-					<Tabs.TabPane tab={day.name} key={day.key}>
+					<Tabs.TabPane tab={day.name} key={`${day.key}`}>
 						<Table
 							dataSource={scheduleData[day.alias]}
 							columns={getClearColumns(scheduleTable)}
