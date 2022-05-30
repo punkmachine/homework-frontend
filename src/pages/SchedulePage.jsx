@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Tabs, Table, message } from 'antd';
 
-import {
-	useGetScheduleQuery
-} from '../api/schedule';
+import { useGetScheduleQuery } from '../api/schedule';
+import { useGetLessonsListQuery } from '../api/lessons';
+import { useRedirect } from '../hooks/redirect';
 
 import { MainTitle } from '../components/app/MainTitle';
 import { Spinner } from '../components/app/Spinner';
@@ -13,9 +13,10 @@ import { scheduleTable } from '../constants/columns-settings';
 
 // TODO: добавить режим редактирования таблицы.
 // TODO: добавить drag-n-drop в режим редактирования таблицы.
-// TODO: добавить ссылку на тз к этому предмету и отметку, есть ли они на ближайшую дату.
+// TODO: запоминать выбранный таб в session storage.
 // TODO: добавить объединение строк в одной колонке, если они одинаковые (https://ant.design/components/table/?theme=dark#components-table-demo-colspan-rowspan)
 // TODO: добавить динамическое подсвечивание пар, если они сейчас идут, скоро будут или уже прошли.
+// ! TODO: добавить выделение таба, который соответсвует сегоднешнему дню.
 
 const dictionaryDay = [
 	{
@@ -51,8 +52,13 @@ function SchedulePage() {
 
 	const { data = {}, isLoading, error } = useGetScheduleQuery();
 	const { schedule = [] } = data;
+	const { data: dataLessons = {}, isLoadingLessons, errorLessons } = useGetLessonsListQuery();
+	const { lessons = [] } = dataLessons;
+
+	const { goLesson } = useRedirect();
 
 	const [scheduleData, setScheduleData] = useState([]);
+	const [lessonList, setLessonList] = useState([]);
 
 	function getClearColumns(columns) {
 		if (!isAuth) {
@@ -64,7 +70,7 @@ function SchedulePage() {
 		}
 	}
 
-	const scheduleMapping = (arr, day) => [...arr.filter(item => item.day === day).map((item, index) => ({ ...item, number: index + 1 }))]
+	const scheduleMapping = (arr, day) => [...arr.filter(item => item.day === day).map((item, index) => ({ ...item, number: index + 1 }))];
 
 	useEffect(() => {
 		if (schedule.length > 0) {
@@ -80,21 +86,41 @@ function SchedulePage() {
 		};
 	}, [schedule]);
 
-	if (isLoading) {
+	useEffect(() => {
+		if (lessons.length > 0) setLessonList([...lessons]);
+	}, [lessons]);
+
+	if (isLoading || isLoadingLessons) {
 		return <Spinner />
 	}
 
 	if (error) message.error(error);
+	if (errorLessons) message.error(error);
 
 	return (
 		<div className="shedule-wrapper">
 			<MainTitle text='Расписание' />
-			<Tabs type="card" defaultActiveKey={`${newDate.getDay() > 5 || newDate.getDay() < 1 ? 1 : newDate.getDay()}`}>
+			<Tabs
+				type="card"
+				defaultActiveKey={`${newDate.getDay() > 5 || newDate.getDay() < 1 ? 1 : newDate.getDay()}`}
+			>
 				{dictionaryDay.map(day =>
-					<Tabs.TabPane tab={day.name} key={`${day.key}`}>
+					<Tabs.TabPane
+						tab={day.name}
+						key={`${day.key}`}
+					>
 						<Table
 							dataSource={scheduleData[day.alias]}
 							columns={getClearColumns(scheduleTable)}
+							onRow={(record) => {
+								return {
+									onClick: () => {
+										const lesson = lessonList.find(item => item.name === record['lesson_name']);
+										goLesson(lesson.id);
+									}
+								}
+							}}
+							rowClassName='table-row'
 							pagination={false}
 							bordered
 						/>
