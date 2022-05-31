@@ -13,9 +13,6 @@ import { scheduleTable } from '../constants/columns-settings';
 
 // TODO: добавить режим редактирования таблицы.
 // TODO: добавить drag-n-drop в режим редактирования таблицы.
-// TODO: добавить объединение строк в одной колонке, если они одинаковые (https://ant.design/components/table/?theme=dark#components-table-demo-colspan-rowspan)
-// TODO: добавить динамическое подсвечивание пар, если они сейчас идут, скоро будут или уже прошли.
-// ! TODO: добавить выделение таба, который соответсвует сегоднешнему дню.
 
 const dictionaryDay = [
 	{
@@ -69,10 +66,31 @@ function SchedulePage() {
 		}
 	}
 
-	const scheduleMapping = (arr, day) => [...arr.filter(item => item.day === day).map((item, index) => ({ ...item, number: index + 1 }))];
+	function getStatusLesson(timeStart, timeEnd, day) {
+		const timeStartDate = new Date(newDate.getFullYear(), newDate.getMonth(), newDate.getDate(), timeStart.slice(0, 2), timeStart.slice(3, 5));
+		const timeEndDate = new Date(newDate.getFullYear(), newDate.getMonth(), newDate.getDate(), timeEnd.slice(0, 2), timeEnd.slice(3, 5));
+
+		if (newDate.getDay() !== dictionaryDay.find(item => item.alias === day)?.key) {
+			return '';
+		} else if (newDate - timeStartDate > 0 && newDate - timeEndDate > 0) {
+			return 'ended';
+		} else if (newDate - timeStartDate < 0 && newDate - timeEndDate < 0) {
+			return 'next';
+		} else {
+			return 'current';
+		}
+	}
+
+	const getRowClassName = (record) => `table-row table-row-${record.status}`;
+
+	const scheduleMapping = (arr, day) => [
+		...arr
+			.filter(item => item.day === day)
+			.map((item, index) => ({ ...item, number: index + 1, status: getStatusLesson(item['time_start'], item['time_end'], item.day) }))
+	];
 	const getDefaultActiveKey = () => !sessionStorage.getItem('scheduleTab')
 		? `${newDate.getDay() > 5 || newDate.getDay() < 1 ? 1 : newDate.getDay()}`
-		: sessionStorage.getItem('scheduleTab');;
+		: sessionStorage.getItem('scheduleTab');
 	const onClickTab = (key) => sessionStorage.setItem('scheduleTab', key);
 
 	useEffect(() => {
@@ -124,7 +142,7 @@ function SchedulePage() {
 									}
 								}
 							}}
-							rowClassName='table-row'
+							rowClassName={getRowClassName}
 							pagination={false}
 							bordered
 						/>

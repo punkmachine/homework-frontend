@@ -15,6 +15,18 @@
 
 .table-row {
 	cursor: pointer;
+
+	&-ended {
+		background-color: #ffccc7;
+	}
+
+	&-current {
+		background-color: #ffffb8;
+	}
+
+	&-next {
+		background-color: #f6ffed;
+	}
 }
 
 .hamburger {
