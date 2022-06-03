@@ -56,13 +56,20 @@ function SchedulePage() {
 	const [scheduleData, setScheduleData] = useState([]);
 	const [lessonList, setLessonList] = useState([]);
 
-	function getClearColumns(columns) {
-		if (!isAuth) {
-			return columns.map(item => !item.key.includes('zoom') ? item : null).filter(item => !!item);
-		} else {
-			// TODO: придумать не костыль, для проверки на то, являются ли все данные из этого дня не онлайн
+	function getClearColumns(columns, day) {
+		const removeZoomColumns = (columns) => columns.map(item => !item.key.includes('zoom') ? item : null).filter(item => !!item);
 
-			return columns;
+		if (!isAuth) {
+			return removeZoomColumns(columns);
+		} else {
+			const lessonsDay = scheduleData[day] ?? [];
+			const onlineLesson = lessonsDay.find(item => item['type_lesson'] === 1);
+
+			if (!!onlineLesson) {
+				return columns;
+			} else {
+				return removeZoomColumns(columns);
+			}
 		}
 	}
 
@@ -88,9 +95,11 @@ function SchedulePage() {
 			.filter(item => item.day === day)
 			.map((item, index) => ({ ...item, number: index + 1, status: getStatusLesson(item['time_start'], item['time_end'], item.day) }))
 	];
+
 	const getDefaultActiveKey = () => !sessionStorage.getItem('scheduleTab')
 		? `${newDate.getDay() > 5 || newDate.getDay() < 1 ? 1 : newDate.getDay()}`
 		: sessionStorage.getItem('scheduleTab');
+
 	const onClickTab = (key) => sessionStorage.setItem('scheduleTab', key);
 
 	useEffect(() => {
@@ -133,7 +142,7 @@ function SchedulePage() {
 					>
 						<Table
 							dataSource={scheduleData[day.alias]}
-							columns={getClearColumns(scheduleTable)}
+							columns={getClearColumns(scheduleTable, day.alias)}
 							onRow={(record) => {
 								return {
 									onClick: () => {
