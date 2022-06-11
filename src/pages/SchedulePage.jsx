@@ -93,7 +93,11 @@ function SchedulePage() {
 	const scheduleMapping = (arr, day) => [
 		...arr
 			.filter(item => item.day === day)
-			.map((item, index) => ({ ...item, number: index + 1, status: getStatusLesson(item['time_start'], item['time_end'], item.day) }))
+			.map((item, index) => ({
+				...item,
+				number: index + 1,
+				status: getStatusLesson(item['time_start'], item['time_end'], item.day)
+			}))
 	];
 
 	const getDefaultActiveKey = () => !sessionStorage.getItem('scheduleTab')

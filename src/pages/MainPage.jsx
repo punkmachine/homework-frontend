@@ -29,7 +29,7 @@ function MainPage() {
 	function cancelClick() {
 		toggleVisible(false);
 		form.resetFields();
-	};
+	}
 
 	async function deleteLesson(id) {
 		try {

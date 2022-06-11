@@ -26,6 +26,7 @@ function CardList(props) {
 							hidden={!isAuth}
 							name={item.name}
 							id={item.id}
+							count={item.count}
 						/>
 					</Col>);
 				})}
