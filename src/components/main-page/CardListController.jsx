@@ -32,10 +32,12 @@ function CardListController(props) {
 					className='filter-item'
 					placeholder='Поиск...'
 					onChange={onSearch}
-					allowClear />
-				<Select
+					allowClear
+				/>
+				{/* <Select
 					placeholder='Семестр'
-					className='filter-item' />
+					className='filter-item'
+				/> */}
 			</div>
 		</div>
 	);

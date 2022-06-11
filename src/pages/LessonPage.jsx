@@ -1,48 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, } from 'antd';
+import { Row, Col, message } from 'antd';
 import { useParams } from 'react-router-dom';
+
+import { useGetHomeworkByLessonIdQuery } from '../api/homework';
+
+import { Spinner } from '../components/app/Spinner';
 import { CardTask } from '../components/cardTask';
 import { MainTitle } from '../components/app/MainTitle';
 
 function LessonPage() {
 	const { id } = useParams();
 
-	const [stateSpan, setStateSpan] = useState(6);
+	const { data, isLoading, error } = useGetHomeworkByLessonIdQuery(id);
 
-	const homeworks = [
-		{
-			id: 1,
-			title: 'title',
-			description: 'description',
-			createTime: 'createTime',
-			author: 'author',
-			expireDate: 'expireDate',
-		},
-		{
-			id: 2,
-			title: 'title',
-			description: 'description',
-			createTime: 'createTime',
-			author: 'author',
-			expireDate: 'expireDate',
-		},
-		{
-			id: 3,
-			title: 'title',
-			description: 'description',
-			createTime: 'createTime',
-			author: 'author',
-			expireDate: 'expireDate',
-		},
-		{
-			id: 3,
-			title: 'title',
-			description: 'description',
-			createTime: 'createTime',
-			author: 'author',
-			expireDate: 'expireDate',
-		},
-	];
+	const [stateSpan, setStateSpan] = useState(6);
+	const [homeworks, setHomeworks] = useState([]);
 
 	useEffect(() => {
 		const screenWidth = window.screen.width;
@@ -53,6 +25,16 @@ function LessonPage() {
 			setStateSpan(12);
 		} else if (screenWidth <= 425) setStateSpan(24);
 	}, []);
+
+	useEffect(() => {
+		if (data) setHomeworks([...data.homeworks]);
+	}, [data]);
+
+	if (isLoading) {
+		return <Spinner />
+	}
+
+	if (error) message.error(error);
 
 	return (
 		<div className="lesson-container">
