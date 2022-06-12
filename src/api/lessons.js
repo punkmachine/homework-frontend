@@ -1,7 +1,7 @@
 import { api } from './api';
 import { LESSONS_LIST } from '../constants/rtk';
 
-const endpoint = 'lessons'
+const endpoint = 'lessons';
 
 export const lessonsApi = api.injectEndpoints({
 	reducerPath: 'lessonsApi',
