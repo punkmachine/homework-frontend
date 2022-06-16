@@ -1,5 +1,5 @@
 import { useHistory, useLocation } from 'react-router-dom';
-import { LESSON_PAGE_PATH, SCHEDULE_PAGE_PATH, LOGIN_PAGE_PATH, REGISTRATION_PAGE_PATH } from '../constants/routes';
+import { LESSON_PAGE_PATH, SCHEDULE_PAGE_PATH, LOGIN_PAGE_PATH, REGISTRATION_PAGE_PATH, PROFILE_PAGE_PATH } from '../constants/routes';
 
 export const useRedirect = () => {
 	const history = useHistory();
@@ -12,6 +12,8 @@ export const useRedirect = () => {
 
 	const goSchedule = () => history.push(SCHEDULE_PAGE_PATH);
 	const goMain = () => history.push('/');
+	const goProfile = () => history.push(PROFILE_PAGE_PATH);
+
 	const goLesson = (id) => history.push(`${LESSON_PAGE_PATH}-${id}`);
 
 	return {
@@ -22,5 +24,6 @@ export const useRedirect = () => {
 		goLesson,
 		goMain,
 		goSchedule,
+		goProfile
 	}
 }

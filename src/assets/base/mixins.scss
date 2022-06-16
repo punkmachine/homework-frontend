@@ -1,0 +1,27 @@
+@mixin auth-form {
+	&-form {
+		width: 400px;
+		text-align: center;
+		margin: 0 auto;
+
+		&-submit {
+			padding: 0 2rem;
+		}
+		
+		&-link {
+			margin-top: 10px;
+		}
+	}
+}
+
+@mixin flex-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+@mixin flex-sb-center {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}

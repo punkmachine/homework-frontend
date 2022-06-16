@@ -1,0 +1,46 @@
+.card-homework {
+	border-radius: 15px;
+	box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.4);
+	cursor: pointer;
+	transition: 0.3s;
+
+	&-title {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	&-footer {
+		display: flex;
+		justify-content: space-between;
+		margin-top: 50px;
+	}
+
+	&:hover {
+		box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.5);
+	}
+
+	&-controller {
+		display: flex;
+		gap: 5px;
+	}
+
+	&-icon {
+		cursor: pointer;
+		font-size: 20px;
+		transition: 0.3s;
+		border-radius: 50%;
+		padding: 5px;
+
+		&:hover {
+			background-color:#b5f5ec;
+		}
+
+		&:hover:nth-child(1) {
+			color: #1890ff;
+		}
+
+		&:hover:nth-child(2) {
+			color: #f5222d;
+		}
+	}
+}

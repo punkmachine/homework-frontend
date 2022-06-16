@@ -21,4 +21,12 @@ export const headData = {
 		title: 'Регистрация',
 		description: 'Регистрация в приложении',
 	},
+	[routes.PROFILE_PAGE_PATH]: {
+		title: 'Профиль',
+		description: 'Профиль пользователя в приложении',
+	},
+	[routes.EXAMS_PAGE_PATH]: {
+		title: 'Экзамены',
+		description: 'Расписание экзаменов в приложении',
+	},
 }

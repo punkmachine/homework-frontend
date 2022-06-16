@@ -7,6 +7,12 @@ export const rules = {
 			message: 'Не валидный email',
 		},
 	],
+	login: [
+		{
+			required: true,
+			message: 'Обязательное поле',
+		}
+	],
 	password: [
 		{
 			required: true,
