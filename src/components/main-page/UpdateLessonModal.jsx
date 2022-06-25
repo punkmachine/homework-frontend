@@ -24,7 +24,8 @@ function UpdateLessonModal(props) {
 					>
 						<Input
 							onPressEnter={updateLesson}
-							placeholder='Введение название' />
+							placeholder='Введение название'
+						/>
 					</Form.Item>
 				</Form>
 			</Modal>
