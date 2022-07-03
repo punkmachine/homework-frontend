@@ -48,3 +48,67 @@ export const loginForm = [
 		icon: LockOutlined,
 	}
 ];
+
+export const addScheduleItemForm = [
+	{
+		name: 'lesson',
+		placeholder: 'Выберите предмет',
+		type: 'select',
+		rules: rules.required,
+	},
+	{
+		name: 'time_start',
+		placeholder: 'Время время начала',
+		type: 'input',
+		rules: rules.required,
+	},
+	{
+		name: 'time_end',
+		placeholder: 'Введите время окончания',
+		type: 'input',
+		rules: rules.required,
+	},
+	{
+		name: 'type_lesson',
+		placeholder: 'Выберите тип предмета',
+		type: 'select',
+		rules: rules.required,
+		options: [
+			{
+				label: 'Онлайн',
+				value: 1,
+			},
+			{
+				label: 'Офлайн',
+				value: 0,
+			},
+		],
+	},
+	{
+		name: 'classroom',
+		placeholder: 'Введите номер аудитории',
+		type: 'input',
+		rules: rules.number,
+	},
+	{
+		name: 'teacher',
+		placeholder: 'Введите имя преподавателя',
+		type: 'input',
+		rules: rules.noNumber,
+	},
+];
+
+export const addScheduleItemFormOther = [
+	{
+		name: 'zoom_id',
+		placeholder: 'Введите Zoom ID',
+		type: 'input',
+		rules: rules.required,
+	},
+	{
+		name: 'zoom_pass',
+		placeholder: 'Введите пароль от Zoom',
+		type: 'input',
+		rules: rules.required,
+	},
+];

@@ -1,62 +1,73 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Tabs, Table, message, Button } from 'antd';
+import { Tabs, Table, message, Form } from 'antd';
 
-import { useGetScheduleQuery } from '../api/schedule';
+import {
+	useGetScheduleQuery,
+	useCreateScheduleItemMutation,
+	useDeleteScheduleItemMutation,
+	useUpdateScheduleItemMutation
+} from '../api/schedule';
 import { useGetLessonsListQuery } from '../api/lessons';
 import { useRedirect } from '../hooks/redirect';
+import { useToggle } from '../hooks/toggle';
+import { useModal } from '../hooks/modal';
 
 import { MainTitle } from '../components/app/MainTitle';
 import { Spinner } from '../components/app/Spinner';
 import { ButtonEdit } from '../components/schedule-page/ButtonEdit';
+import { FooterTable } from '../components/schedule-page/FooterTable';
+import { AddItemScheduleModal } from '../components/schedule-page/AddItemScheduleModal';
 
 import { scheduleTable } from '../constants/columns-settings';
-
-// TODO: добавить режим редактирования таблицы.
-// TODO: добавить drag-n-drop в режим редактирования таблицы.
-
-const dictionaryDay = [
-	{
-		key: 1,
-		name: 'Понедельник',
-		alias: 'mon',
-	},
-	{
-		key: 2,
-		name: 'Вторник',
-		alias: 'tue',
-	},
-	{
-		key: 3,
-		name: 'Среда',
-		alias: 'wed',
-	},
-	{
-		key: 4,
-		name: 'Четверг',
-		alias: 'thu',
-	},
-	{
-		key: 5,
-		name: 'Пятница',
-		alias: 'fri',
-	},
-];
+import { dictionaryDay } from '../constants/dictionaty-day';
 
 function SchedulePage() {
 	const isAuth = useSelector((state) => state.authReducer.isAuth);
+	const [formAdd] = Form.useForm();
+
 	const newDate = new Date();
 
 	const { data = {}, isLoading, error } = useGetScheduleQuery();
-	const { schedule = [] } = data;
 	const { data: dataLessons = {}, isLoadingLessons, errorLessons } = useGetLessonsListQuery();
+	const { schedule = [] } = data;
 	const { lessons = [] } = dataLessons;
 
+	const [createScheduleItem] = useCreateScheduleItemMutation();
+	const [deleteScheduleItem] = useDeleteScheduleItemMutation();
+	const [updateScheduleItem] = useUpdateScheduleItemMutation();
+
 	const { goLesson } = useRedirect();
+	const [editSchedule, toggleEditSchedule] = useToggle(false);
+	const [visibleAdd, toggleVisibleAdd] = useModal(false);
 
 	const [scheduleData, setScheduleData] = useState([]);
 	const [lessonList, setLessonList] = useState([]);
-	const [editSchedule, setEditSchedule] = useState(false);
+
+	async function addScheduleItem() {
+		try {
+			const dataForm = await formAdd.validateFields();
+
+			const { data } = await createScheduleItem({
+				'zoom_id': '-',
+				'zoom_pass': '-',
+				day: dictionaryDay.find(item => item.key === +sessionStorage.getItem('scheduleTab')).alias,
+				...dataForm,
+			});
+
+			const { success } = data;
+
+			if (success) {
+				message.success('Предмет добавлен в расписание');
+				toggleVisibleAdd();
+				formAdd.resetFields();
+			} else {
+				message.error('Произошла ошибка при добавлении предмета в расписание');
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	}
 
 	function getClearColumns(columns, day) {
 		const removeZoomColumns = (columns) => columns.map(item => !item.key.includes('zoom') ? item : null).filter(item => !!item);
@@ -136,11 +147,12 @@ function SchedulePage() {
 	return (
 		<div className="shedule-wrapper">
 			<MainTitle text='Расписание' />
+
 			<Tabs
 				type="card"
 				defaultActiveKey={() => getDefaultActiveKey()}
 				onChange={onClickTab}
-				tabBarExtraContent={<ButtonEdit hidden={!isAuth} editSchedule={editSchedule} setEditSchedule={setEditSchedule} />}
+				tabBarExtraContent={<ButtonEdit hidden={!isAuth} editSchedule={editSchedule} toggleEditSchedule={toggleEditSchedule} />}
 			>
 				{dictionaryDay.map(day =>
 					<Tabs.TabPane
@@ -161,10 +173,19 @@ function SchedulePage() {
 							rowClassName={getRowClassName}
 							pagination={false}
 							bordered
+							footer={() => <FooterTable hidden={!editSchedule} click={toggleVisibleAdd} />}
 						/>
 					</Tabs.TabPane>
 				)}
 			</Tabs>
+
+			<AddItemScheduleModal
+				visibleAdd={visibleAdd}
+				toggleVisibleAdd={toggleVisibleAdd}
+				addScheduleItem={addScheduleItem}
+				formAdd={formAdd}
+				lessonList={lessonList}
+			/>
 		</div>
 	);
 }

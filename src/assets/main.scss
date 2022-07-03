@@ -121,6 +121,10 @@
 	align-items: center;
 }
 
+.justify-center {
+	justify-content: center;
+}
+
 @media (max-width: 425px) {
 	.cardlist {
 		&-controller {
