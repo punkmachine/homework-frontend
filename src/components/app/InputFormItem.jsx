@@ -3,12 +3,19 @@ import { Form, Input } from 'antd';
 import Icon from '@ant-design/icons';
 
 function InputFormItem(props) {
-	const { name, rules, placeholder, size, className, type, icon } = props;
+	const { name, rules, placeholder, size, className, type, icon = null } = props;
 
-	const config = {
+	let config = {
 		placeholder,
 		size,
 	};
+
+	if (icon) {
+		config = {
+			...config,
+			prefix: <Icon component={icon} />
+		}
+	}
 
 	return (
 		<Form.Item
@@ -19,12 +26,10 @@ function InputFormItem(props) {
 			{type === 'input' ?
 				<Input
 					{...config}
-					prefix={<Icon component={icon} />}
 				/>
 				: type === 'password' ?
 					<Input.Password
 						{...config}
-						prefix={<Icon component={icon} />}
 					/>
 					: null
 			}
