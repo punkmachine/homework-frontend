@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Tabs, Table, message } from 'antd';
+import { Tabs, Table, message, Button } from 'antd';
 
 import { useGetScheduleQuery } from '../api/schedule';
 import { useGetLessonsListQuery } from '../api/lessons';
@@ -8,6 +8,7 @@ import { useRedirect } from '../hooks/redirect';
 
 import { MainTitle } from '../components/app/MainTitle';
 import { Spinner } from '../components/app/Spinner';
+import { ButtonEdit } from '../components/schedule-page/ButtonEdit';
 
 import { scheduleTable } from '../constants/columns-settings';
 
@@ -55,6 +56,7 @@ function SchedulePage() {
 
 	const [scheduleData, setScheduleData] = useState([]);
 	const [lessonList, setLessonList] = useState([]);
+	const [editSchedule, setEditSchedule] = useState(false);
 
 	function getClearColumns(columns, day) {
 		const removeZoomColumns = (columns) => columns.map(item => !item.key.includes('zoom') ? item : null).filter(item => !!item);
@@ -138,6 +140,7 @@ function SchedulePage() {
 				type="card"
 				defaultActiveKey={() => getDefaultActiveKey()}
 				onChange={onClickTab}
+				tabBarExtraContent={<ButtonEdit hidden={!isAuth} editSchedule={editSchedule} setEditSchedule={setEditSchedule} />}
 			>
 				{dictionaryDay.map(day =>
 					<Tabs.TabPane

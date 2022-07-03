@@ -113,6 +113,14 @@
 	width: 100%;
 }
 
+.flex {
+	display: flex;
+}
+
+.align-center {
+	align-items: center;
+}
+
 @media (max-width: 425px) {
 	.cardlist {
 		&-controller {
