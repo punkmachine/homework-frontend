@@ -125,6 +125,10 @@
 	justify-content: center;
 }
 
+.gap10 {
+	gap: 10px;
+}
+
 @media (max-width: 425px) {
 	.cardlist {
 		&-controller {

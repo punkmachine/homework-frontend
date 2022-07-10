@@ -18,9 +18,17 @@ import { Spinner } from '../components/app/Spinner';
 import { ButtonEdit } from '../components/schedule-page/ButtonEdit';
 import { FooterTable } from '../components/schedule-page/FooterTable';
 import { AddItemScheduleModal } from '../components/schedule-page/AddItemScheduleModal';
+import { TableScheduleAction } from '../components/schedule-page/TableScheduleAction';
 
 import { scheduleTable } from '../constants/columns-settings';
 import { dictionaryDay } from '../constants/dictionaty-day';
+
+// TODO: delete item.
+// TODO: edit item.
+// TODO: mask from datetime.
+// TODO: dran and drop.
+// TODO: checkboxes.
+
 
 function SchedulePage() {
 	const isAuth = useSelector((state) => state.authReducer.isAuth);
@@ -69,6 +77,36 @@ function SchedulePage() {
 		}
 	}
 
+	async function removeScheduleItem(id) {
+		try {
+			const { data } = await deleteScheduleItem(id);
+
+			const { success } = data;
+
+			if (success) {
+				message.success('Предмет успешно удален');
+			} else {
+				message.error('Произошла ошибка при удалении предмета из расписания');
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	function addActionsToTable(content = []) {
+		return [
+			...content.map(item => {
+				return {
+					...item,
+					actions: <TableScheduleAction
+						deleteClick={() => removeScheduleItem(item.id)}
+						editClick={() => { }}
+					/>
+				}
+			})
+		];
+	}
+
 	function getClearColumns(columns, day) {
 		const removeZoomColumns = (columns) => columns.map(item => !item.key.includes('zoom') ? item : null).filter(item => !!item);
 
@@ -101,7 +139,7 @@ function SchedulePage() {
 		}
 	}
 
-	const getRowClassName = (record) => `table-row table-row-${record.status}`;
+	// const getRowClassName = (record) => `table-row table-row-${record.status}`;
 
 	const scheduleMapping = (arr, day) => [
 		...arr
@@ -160,17 +198,17 @@ function SchedulePage() {
 						key={`${day.key}`}
 					>
 						<Table
-							dataSource={scheduleData[day.alias]}
+							dataSource={addActionsToTable(scheduleData[day.alias])}
 							columns={getClearColumns(scheduleTable, day.alias)}
-							onRow={(record) => {
-								return {
-									onClick: () => {
-										const lesson = lessonList.find(item => item.name === record['lesson_name']);
-										goLesson(lesson.id);
-									}
-								}
-							}}
-							rowClassName={getRowClassName}
+							// onRow={(record) => {
+							// 	return {
+							// 		onClick: () => {
+							// 			const lesson = lessonList.find(item => item.name === record['lesson_name']);
+							// 			goLesson(lesson.id);
+							// 		}
+							// 	}
+							// }}
+							// rowClassName={getRowClassName}
 							pagination={false}
 							bordered
 							footer={() => <FooterTable hidden={!editSchedule} click={toggleVisibleAdd} />}

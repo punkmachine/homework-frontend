@@ -50,4 +50,9 @@ export const scheduleTable = [
 		key: 'teacher',
 		dataIndex: 'teacher',
 	},
+	{
+		title: 'Действия',
+		key: 'actions',
+		dataIndex: 'actions',
+	}
 ];
