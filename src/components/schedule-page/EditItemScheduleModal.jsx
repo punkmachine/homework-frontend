@@ -6,13 +6,14 @@ import { SelectFormItem } from '../app/SelectFormItem';
 
 import { scheduleItemForm, scheduleItemFormOther } from '../../constants/form-list';
 
-function AddItemScheduleModal(props) {
+function EditItemScheduleModal(props) {
 	const {
-		visibleAdd,
-		toggleVisibleAdd,
-		addScheduleItem,
-		formAdd,
+		visibleEdit,
+		toggleVisibleEdit,
+		editScheduleItem,
+		formEdit,
 		lessonList,
+		editedItemSchedule
 	} = props;
 
 	const [isOfflineLesson, setIsOfflineLesson] = useState(false);
@@ -20,15 +21,18 @@ function AddItemScheduleModal(props) {
 	return (
 		<div className="add-item-schedule">
 			<Modal
-				visible={visibleAdd}
-				okText='Создать'
+				visible={visibleEdit}
+				okText='Cохранить'
 				cancelText='Отмена'
-				onCancel={() => toggleVisibleAdd(false)}
-				title='Создание элемент расписания'
+				onCancel={() => toggleVisibleEdit(false)}
+				title='Редактирование элемента расписания'
 				destroyOnClose
-				onOk={addScheduleItem}
+				onOk={editScheduleItem}
 			>
-				<Form form={formAdd}>
+				<Form
+					form={formEdit}
+					initialValues={editedItemSchedule}
+				>
 					{scheduleItemForm.map(item =>
 						item.type === 'select'
 							? (<SelectFormItem
@@ -36,7 +40,7 @@ function AddItemScheduleModal(props) {
 								key={item.name}
 								size="large"
 								options={
-									item.name === 'lesson'
+									item.name === 'lesson_name'
 										? [...lessonList.map(item => ({ label: item.name, value: item.id }))]
 										: item.options
 								}
@@ -67,4 +71,4 @@ function AddItemScheduleModal(props) {
 	);
 }
 
-export { AddItemScheduleModal };
+export { EditItemScheduleModal };

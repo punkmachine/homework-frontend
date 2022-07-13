@@ -9,7 +9,7 @@ import {
 	useUpdateScheduleItemMutation
 } from '../api/schedule';
 import { useGetLessonsListQuery } from '../api/lessons';
-import { useRedirect } from '../hooks/redirect';
+// import { useRedirect } from '../hooks/redirect';
 import { useToggle } from '../hooks/toggle';
 import { useModal } from '../hooks/modal';
 
@@ -18,21 +18,20 @@ import { Spinner } from '../components/app/Spinner';
 import { ButtonEdit } from '../components/schedule-page/ButtonEdit';
 import { FooterTable } from '../components/schedule-page/FooterTable';
 import { AddItemScheduleModal } from '../components/schedule-page/AddItemScheduleModal';
+import { EditItemScheduleModal } from '../components/schedule-page/EditItemScheduleModal';
 import { TableScheduleAction } from '../components/schedule-page/TableScheduleAction';
 
 import { scheduleTable } from '../constants/columns-settings';
 import { dictionaryDay } from '../constants/dictionaty-day';
 
-// TODO: delete item.
-// TODO: edit item.
 // TODO: mask from datetime.
 // TODO: dran and drop.
 // TODO: checkboxes.
 
-
 function SchedulePage() {
 	const isAuth = useSelector((state) => state.authReducer.isAuth);
 	const [formAdd] = Form.useForm();
+	const [formEdit] = Form.useForm();
 
 	const newDate = new Date();
 
@@ -45,12 +44,14 @@ function SchedulePage() {
 	const [deleteScheduleItem] = useDeleteScheduleItemMutation();
 	const [updateScheduleItem] = useUpdateScheduleItemMutation();
 
-	const { goLesson } = useRedirect();
+	// const { goLesson } = useRedirect();
 	const [editSchedule, toggleEditSchedule] = useToggle(false);
 	const [visibleAdd, toggleVisibleAdd] = useModal(false);
+	const [visibleEdit, toggleVisibleEdit] = useModal(false);
 
 	const [scheduleData, setScheduleData] = useState([]);
 	const [lessonList, setLessonList] = useState([]);
+	const [editedItemSchedule, setEditedItemSchedule] = useState({});
 
 	async function addScheduleItem() {
 		try {
@@ -67,10 +68,35 @@ function SchedulePage() {
 
 			if (success) {
 				message.success('Предмет добавлен в расписание');
-				toggleVisibleAdd();
+				toggleVisibleAdd(false);
 				formAdd.resetFields();
 			} else {
 				message.error('Произошла ошибка при добавлении предмета в расписание');
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	async function editScheduleItem() {
+		try {
+			const dataForm = await formEdit.validateFields();
+
+			const record = {
+				...editedItemSchedule,
+				...dataForm,
+			};
+
+			const { data } = await updateScheduleItem(record);
+
+			const { success } = data;
+
+			if (success) {
+				message.success('Предмет отредактирован');
+				toggleVisibleEdit(false);
+				formEdit.resetFields();
+			} else {
+				message.error('Произошла ошибка при редактировании предмета');
 			}
 		} catch (error) {
 			console.log(error);
@@ -94,34 +120,53 @@ function SchedulePage() {
 	}
 
 	function addActionsToTable(content = []) {
-		return [
-			...content.map(item => {
-				return {
-					...item,
-					actions: <TableScheduleAction
-						deleteClick={() => removeScheduleItem(item.id)}
-						editClick={() => { }}
-					/>
-				}
-			})
-		];
+		if (!editSchedule) {
+			return content;
+		} else {
+			return [
+				...content.map(item => {
+					return {
+						...item,
+						actions: <TableScheduleAction
+							deleteClick={() => removeScheduleItem(item.id)}
+							editClick={() => editClick(item)}
+						/>
+					}
+				})
+			];
+		}
+
+	}
+
+	function editClick(item) {
+		toggleVisibleEdit(true);
+		setEditedItemSchedule({
+			...item,
+			'lesson_name': [...lessonList.map(item => ({ label: item.name, value: item.id }))].find(lesson => lesson.label === item['lesson_name']).value,
+		});
 	}
 
 	function getClearColumns(columns, day) {
+		let newColumns = [...columns];
+
 		const removeZoomColumns = (columns) => columns.map(item => !item.key.includes('zoom') ? item : null).filter(item => !!item);
 
 		if (!isAuth) {
-			return removeZoomColumns(columns);
+			newColumns = removeZoomColumns(columns);
 		} else {
 			const lessonsDay = scheduleData[day] ?? [];
 			const onlineLesson = lessonsDay.find(item => item['type_lesson'] === 1);
 
-			if (!!onlineLesson) {
-				return columns;
-			} else {
-				return removeZoomColumns(columns);
+			if (onlineLesson) {
+				newColumns = removeZoomColumns(columns);
 			}
 		}
+
+		if (!editSchedule) {
+			newColumns = newColumns.filter(item => item.dataIndex !== 'actions');
+		}
+
+		return newColumns;
 	}
 
 	function getStatusLesson(timeStart, timeEnd, day) {
@@ -223,6 +268,15 @@ function SchedulePage() {
 				addScheduleItem={addScheduleItem}
 				formAdd={formAdd}
 				lessonList={lessonList}
+			/>
+
+			<EditItemScheduleModal
+				visibleEdit={visibleEdit}
+				toggleVisibleEdit={toggleVisibleEdit}
+				editScheduleItem={editScheduleItem}
+				formEdit={formEdit}
+				lessonList={lessonList}
+				editedItemSchedule={editedItemSchedule}
 			/>
 		</div>
 	);

@@ -49,9 +49,9 @@ export const loginForm = [
 	}
 ];
 
-export const addScheduleItemForm = [
+export const scheduleItemForm = [
 	{
-		name: 'lesson',
+		name: 'lesson_name',
 		placeholder: 'Выберите предмет',
 		type: 'select',
 		rules: rules.required,
@@ -98,7 +98,7 @@ export const addScheduleItemForm = [
 	},
 ];
 
-export const addScheduleItemFormOther = [
+export const scheduleItemFormOther = [
 	{
 		name: 'zoom_id',
 		placeholder: 'Введите Zoom ID',
