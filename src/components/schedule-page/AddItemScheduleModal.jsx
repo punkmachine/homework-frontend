@@ -36,12 +36,12 @@ function AddItemScheduleModal(props) {
 								key={item.name}
 								size="large"
 								options={
-									item.name === 'lesson'
+									item.name === 'lesson_name'
 										? [...lessonList.map(item => ({ label: item.name, value: item.id }))]
 										: item.options
 								}
 								onSelect={
-									item.name !== 'lesson'
+									item.name !== 'lesson_name'
 										? (value) => setIsOfflineLesson(value === 1)
 										: null
 								}

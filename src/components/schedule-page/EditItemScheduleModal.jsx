@@ -13,10 +13,17 @@ function EditItemScheduleModal(props) {
 		editScheduleItem,
 		formEdit,
 		lessonList,
-		editedItemSchedule
+		editedItemSchedule,
+		setEditedItemSchedule
 	} = props;
 
 	const [isOfflineLesson, setIsOfflineLesson] = useState(false);
+
+	function closeModal() {
+		toggleVisibleEdit(false);
+		formEdit.resetFields();
+		setEditedItemSchedule({});
+	}
 
 	return (
 		<div className="add-item-schedule">
@@ -24,7 +31,7 @@ function EditItemScheduleModal(props) {
 				visible={visibleEdit}
 				okText='Cохранить'
 				cancelText='Отмена'
-				onCancel={() => toggleVisibleEdit(false)}
+				onCancel={closeModal}
 				title='Редактирование элемента расписания'
 				destroyOnClose
 				onOk={editScheduleItem}
