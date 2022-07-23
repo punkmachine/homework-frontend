@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { Tabs, Table, message, Form } from 'antd';
 
@@ -21,17 +20,16 @@ import { AddItemScheduleModal } from '../components/schedule-page/AddItemSchedul
 import { EditItemScheduleModal } from '../components/schedule-page/EditItemScheduleModal';
 import { TableScheduleAction } from '../components/schedule-page/TableScheduleAction';
 
+import { validateAddScheduleItem, validateEditScheduleItem } from '../utils/validators';
+import { getDefaultActiveKey, onClickTab, scheduleMapping, getRowClassName } from '../utils/schedule';
+
 import { scheduleTable } from '../constants/columns-settings';
 import { dictionaryDay } from '../constants/dictionaty-day';
-
-// TODO: mask from datetime.
 
 function SchedulePage() {
 	const isAuth = useSelector((state) => state.authReducer.isAuth);
 	const [formAdd] = Form.useForm();
 	const [formEdit] = Form.useForm();
-
-	const newDate = new Date();
 
 	const { data = {}, isLoading, error } = useGetScheduleQuery();
 	const { data: dataLessons = {}, isLoadingLessons, errorLessons } = useGetLessonsListQuery();
@@ -53,21 +51,10 @@ function SchedulePage() {
 	async function addScheduleItem() {
 		try {
 			const dataForm = await formAdd.validateFields();
-
-			const record = {
-				...dataForm,
-				'zoom_id': '-',
-				'zoom_pass': '-',
-				day: dictionaryDay.find(item => item.key === +sessionStorage.getItem('scheduleTab')).alias,
-				lesson: dataForm['lesson_name'],
-				'time_start': moment(dataForm['time_start']).format('HH:mm:ss'),
-				'time_end': moment(dataForm['time_end']).format('HH:mm:ss'),
-			};
-
+			const record = validateAddScheduleItem(dataForm)
 			delete record['lesson_name'];
 
 			const { data } = await createScheduleItem(record);
-
 			const { success } = data;
 
 			if (success) {
@@ -85,16 +72,8 @@ function SchedulePage() {
 	async function editScheduleItem() {
 		try {
 			const dataForm = await formEdit.validateFields();
-
-			const record = {
-				...editedItemSchedule,
-				...dataForm,
-				'time_start': moment(dataForm['time_start']).format('HH:mm:ss'),
-				'time_end': moment(dataForm['time_end']).format('HH:mm:ss'),
-			};
-
+			const record = validateEditScheduleItem(dataForm, editedItemSchedule);
 			const { data } = await updateScheduleItem(record);
-
 			const { success } = data;
 
 			if (success) {
@@ -126,28 +105,35 @@ function SchedulePage() {
 		}
 	}
 
+	function editClick(item, event) {
+		event.stopPropagation();
+		toggleVisibleEdit(true);
+		setEditedItemSchedule({
+			...item,
+			'lesson_name': [...lessonList.map(item => ({ label: item.name, value: item.id }))].find(lesson => lesson.label === item['lesson_name'].name).value,
+		});
+	}
+
 	function addActionsToTable(content = []) {
-		if (!editSchedule) {
-			return [
-				...content.map(item => {
-					return {
-						...item,
-						'lesson_name': {
-							name: item['lesson_name'],
-							id: item.id
-						}
+		let newContent = [
+			...content.map(item => {
+				return {
+					...item,
+					'lesson_name': {
+						name: item['lesson_name'],
+						id: item.id
 					}
-				})
-			];
+				}
+			})
+		];
+
+		if (!editSchedule) {
+			return newContent;
 		} else {
 			return [
-				...content.map(item => {
+				...newContent.map(item => {
 					return {
 						...item,
-						'lesson_name': {
-							name: item['lesson_name'],
-							id: item.id
-						},
 						actions: <TableScheduleAction
 							deleteClick={(event) => removeScheduleItem(item.id, event)}
 							editClick={(event) => editClick(item, event)}
@@ -156,15 +142,6 @@ function SchedulePage() {
 				})
 			];
 		}
-	}
-
-	function editClick(item, event) {
-		event.stopPropagation();
-		toggleVisibleEdit(true);
-		setEditedItemSchedule({
-			...item,
-			'lesson_name': [...lessonList.map(item => ({ label: item.name, value: item.id }))].find(lesson => lesson.label === item['lesson_name']).value,
-		});
 	}
 
 	function getClearColumns(columns, day) {
@@ -189,39 +166,6 @@ function SchedulePage() {
 
 		return newColumns;
 	}
-
-	function getStatusLesson(timeStart, timeEnd, day) {
-		const timeStartDate = new Date(newDate.getFullYear(), newDate.getMonth(), newDate.getDate(), timeStart.slice(0, 2), timeStart.slice(3, 5));
-		const timeEndDate = new Date(newDate.getFullYear(), newDate.getMonth(), newDate.getDate(), timeEnd.slice(0, 2), timeEnd.slice(3, 5));
-
-		if (newDate.getDay() !== dictionaryDay.find(item => item.alias === day)?.key) {
-			return '';
-		} else if (newDate - timeStartDate > 0 && newDate - timeEndDate > 0) {
-			return 'ended';
-		} else if (newDate - timeStartDate < 0 && newDate - timeEndDate < 0) {
-			return 'next';
-		} else {
-			return 'current';
-		}
-	}
-
-	const getRowClassName = (record) => `table-row table-row-${record.status}`;
-
-	const scheduleMapping = (arr, day) => [
-		...arr
-			.filter(item => item.day === day)
-			.map((item, index) => ({
-				...item,
-				number: index + 1,
-				status: getStatusLesson(item['time_start'], item['time_end'], item.day)
-			}))
-	];
-
-	const getDefaultActiveKey = () => !sessionStorage.getItem('scheduleTab')
-		? `${newDate.getDay() > 5 || newDate.getDay() < 1 ? 1 : newDate.getDay()}`
-		: sessionStorage.getItem('scheduleTab');
-
-	const onClickTab = (key) => sessionStorage.setItem('scheduleTab', key);
 
 	useEffect(() => {
 		if (schedule.length > 0) {
