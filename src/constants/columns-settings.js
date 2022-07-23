@@ -1,4 +1,5 @@
 import { Tag } from 'antd';
+import { Link } from 'react-router-dom';
 
 export const scheduleTable = [
 	{
@@ -10,6 +11,7 @@ export const scheduleTable = [
 		title: 'Предмет',
 		key: 'lesson',
 		dataIndex: 'lesson_name',
+		render: (lesson) => <Link to={`lesson-${lesson.id}`}>{lesson.name}</Link>
 	},
 	{
 		title: 'Время начала',

@@ -9,7 +9,6 @@ import {
 	useUpdateScheduleItemMutation
 } from '../api/schedule';
 import { useGetLessonsListQuery } from '../api/lessons';
-import { useRedirect } from '../hooks/redirect';
 import { useToggle } from '../hooks/toggle';
 import { useModal } from '../hooks/modal';
 
@@ -25,8 +24,6 @@ import { scheduleTable } from '../constants/columns-settings';
 import { dictionaryDay } from '../constants/dictionaty-day';
 
 // TODO: mask from datetime.
-// TODO: dran and drop.
-// TODO: checkboxes.
 
 function SchedulePage() {
 	const isAuth = useSelector((state) => state.authReducer.isAuth);
@@ -44,7 +41,6 @@ function SchedulePage() {
 	const [deleteScheduleItem] = useDeleteScheduleItemMutation();
 	const [updateScheduleItem] = useUpdateScheduleItemMutation();
 
-	const { goLesson } = useRedirect();
 	const [editSchedule, toggleEditSchedule] = useToggle(false);
 	const [visibleAdd, toggleVisibleAdd] = useModal(false);
 	const [visibleEdit, toggleVisibleEdit] = useModal(false);
@@ -127,12 +123,26 @@ function SchedulePage() {
 
 	function addActionsToTable(content = []) {
 		if (!editSchedule) {
-			return content;
+			return [
+				...content.map(item => {
+					return {
+						...item,
+						'lesson_name': {
+							name: item['lesson_name'],
+							id: item.id
+						}
+					}
+				})
+			];
 		} else {
 			return [
 				...content.map(item => {
 					return {
 						...item,
+						'lesson_name': {
+							name: item['lesson_name'],
+							id: item.id
+						},
 						actions: <TableScheduleAction
 							deleteClick={(event) => removeScheduleItem(item.id, event)}
 							editClick={(event) => editClick(item, event)}
@@ -141,7 +151,6 @@ function SchedulePage() {
 				})
 			];
 		}
-
 	}
 
 	function editClick(item, event) {
@@ -242,7 +251,13 @@ function SchedulePage() {
 				type="card"
 				defaultActiveKey={() => getDefaultActiveKey()}
 				onChange={onClickTab}
-				tabBarExtraContent={<ButtonEdit hidden={!isAuth} editSchedule={editSchedule} toggleEditSchedule={toggleEditSchedule} />}
+				tabBarExtraContent={
+					<ButtonEdit
+						hidden={!isAuth}
+						editSchedule={editSchedule}
+						toggleEditSchedule={toggleEditSchedule}
+					/>
+				}
 			>
 				{dictionaryDay.map(day =>
 					<Tabs.TabPane
@@ -252,14 +267,6 @@ function SchedulePage() {
 						<Table
 							dataSource={addActionsToTable(scheduleData[day.alias])}
 							columns={getClearColumns(scheduleTable, day.alias)}
-							onRow={(record) => {
-								return {
-									onClick: () => {
-										const lesson = lessonList.find(item => item.name === record['lesson_name']);
-										goLesson(lesson.id);
-									}
-								}
-							}}
 							rowClassName={getRowClassName}
 							pagination={false}
 							bordered
