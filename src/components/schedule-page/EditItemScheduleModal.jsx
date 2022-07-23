@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Form } from 'antd';
 
 import { InputFormItem } from '../app/InputFormItem';
@@ -25,6 +25,12 @@ function EditItemScheduleModal(props) {
 		setEditedItemSchedule({});
 	}
 
+	useEffect(() => {
+		if (editedItemSchedule) {
+			formEdit.setFieldsValue({ ...editedItemSchedule });
+		}
+	}, [editedItemSchedule]);
+
 	return (
 		<div className="add-item-schedule">
 			<Modal
@@ -36,10 +42,7 @@ function EditItemScheduleModal(props) {
 				destroyOnClose
 				onOk={editScheduleItem}
 			>
-				<Form
-					form={formEdit}
-					initialValues={editedItemSchedule}
-				>
+				<Form form={formEdit}>
 					{scheduleItemForm.map(item =>
 						item.type === 'select'
 							? (<SelectFormItem
