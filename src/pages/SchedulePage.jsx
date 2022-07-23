@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { Tabs, Table, message, Form } from 'antd';
 
@@ -54,11 +55,13 @@ function SchedulePage() {
 			const dataForm = await formAdd.validateFields();
 
 			const record = {
+				...dataForm,
 				'zoom_id': '-',
 				'zoom_pass': '-',
 				day: dictionaryDay.find(item => item.key === +sessionStorage.getItem('scheduleTab')).alias,
 				lesson: dataForm['lesson_name'],
-				...dataForm,
+				'time_start': moment(dataForm['time_start']).format('HH:mm:ss'),
+				'time_end': moment(dataForm['time_end']).format('HH:mm:ss'),
 			};
 
 			delete record['lesson_name'];
@@ -86,6 +89,8 @@ function SchedulePage() {
 			const record = {
 				...editedItemSchedule,
 				...dataForm,
+				'time_start': moment(dataForm['time_start']).format('HH:mm:ss'),
+				'time_end': moment(dataForm['time_end']).format('HH:mm:ss'),
 			};
 
 			const { data } = await updateScheduleItem(record);

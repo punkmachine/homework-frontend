@@ -59,13 +59,13 @@ export const scheduleItemForm = [
 	{
 		name: 'time_start',
 		placeholder: 'Время время начала',
-		type: 'input',
+		type: 'time',
 		rules: rules.required,
 	},
 	{
 		name: 'time_end',
 		placeholder: 'Введите время окончания',
-		type: 'input',
+		type: 'time',
 		rules: rules.required,
 	},
 	{

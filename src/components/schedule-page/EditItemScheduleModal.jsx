@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import moment from 'moment';
 import { Modal, Form } from 'antd';
 
 import { InputFormItem } from '../app/InputFormItem';
 import { SelectFormItem } from '../app/SelectFormItem';
+import { TimeFormItem } from '../app/TimeFormItem';
 
 import { scheduleItemForm, scheduleItemFormOther } from '../../constants/form-list';
 
@@ -26,8 +28,12 @@ function EditItemScheduleModal(props) {
 	}
 
 	useEffect(() => {
-		if (editedItemSchedule) {
-			formEdit.setFieldsValue({ ...editedItemSchedule });
+		if (Object.keys(editedItemSchedule).length > 0) {
+			formEdit.setFieldsValue({
+				...editedItemSchedule,
+				'time_start': moment(editedItemSchedule['time_start'], 'HH:mm:ss'),
+				'time_end': moment(editedItemSchedule['time_end'], 'HH:mm:ss'),
+			});
 		}
 	}, [editedItemSchedule]);
 
@@ -60,11 +66,20 @@ function EditItemScheduleModal(props) {
 										: null
 								}
 							/>)
-							: (<InputFormItem
-								{...item}
-								key={item.name}
-								size="large"
-							/>)
+							: item.type === 'time'
+								? (<TimeFormItem
+									{...item}
+									key={item.name}
+									format='HH:mm:ss'
+									size='large'
+									allowClear={false}
+									className='w100'
+								/>)
+								: (<InputFormItem
+									{...item}
+									key={item.name}
+									size="large"
+								/>)
 					)}
 					{isOfflineLesson
 						? scheduleItemFormOther.map(item =>

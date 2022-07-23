@@ -3,6 +3,7 @@ import { Modal, Form } from 'antd';
 
 import { InputFormItem } from '../app/InputFormItem';
 import { SelectFormItem } from '../app/SelectFormItem';
+import { TimeFormItem } from '../app/TimeFormItem';
 
 import { scheduleItemForm, scheduleItemFormOther } from '../../constants/form-list';
 
@@ -15,6 +16,11 @@ function AddItemScheduleModal(props) {
 		lessonList,
 	} = props;
 
+	function closeModal() {
+		toggleVisibleAdd(false);
+		formAdd.resetFields();
+	}
+
 	const [isOfflineLesson, setIsOfflineLesson] = useState(false);
 
 	return (
@@ -23,7 +29,7 @@ function AddItemScheduleModal(props) {
 				visible={visibleAdd}
 				okText='Создать'
 				cancelText='Отмена'
-				onCancel={() => toggleVisibleAdd(false)}
+				onCancel={closeModal}
 				title='Создание элемент расписания'
 				destroyOnClose
 				onOk={addScheduleItem}
@@ -46,11 +52,20 @@ function AddItemScheduleModal(props) {
 										: null
 								}
 							/>)
-							: (<InputFormItem
-								{...item}
-								key={item.name}
-								size="large"
-							/>)
+							: item.type === 'time'
+								? (<TimeFormItem
+									{...item}
+									key={item.name}
+									format='HH:mm:ss'
+									size='large'
+									allowClear={false}
+									className='w100'
+								/>)
+								: (<InputFormItem
+									{...item}
+									key={item.name}
+									size="large"
+								/>)
 					)}
 					{isOfflineLesson
 						? scheduleItemFormOther.map(item =>
